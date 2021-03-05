@@ -1,0 +1,11 @@
+﻿# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/contentModel.xml
+/modules.xml
+/projectSettingsUpdater.xml
+/.idea.RemindMeBot.iml
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
