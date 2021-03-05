@@ -3,3 +3,5 @@
 **/build/
 /buildSrc/.gradle/
 /buildSrc/build/
+**/bin/
+**/obj/
