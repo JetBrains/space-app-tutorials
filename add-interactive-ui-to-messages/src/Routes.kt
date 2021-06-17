@@ -7,9 +7,11 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import kotlinx.coroutines.launch
-import space.jetbrains.api.runtime.types.*
-import space.jetbrains.yana.command
-import space.jetbrains.yana.readPayload
+import space.jetbrains.api.runtime.helpers.command
+import space.jetbrains.api.runtime.helpers.readPayload
+import space.jetbrains.api.runtime.types.ListCommandsPayload
+import space.jetbrains.api.runtime.types.MessageActionPayload
+import space.jetbrains.api.runtime.types.MessagePayload
 
 fun Routing.backToSpace() {
     get("/api/back-to-space") {

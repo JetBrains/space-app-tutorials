@@ -45,5 +45,5 @@ dependencies {
     testImplementation "io.ktor:ktor-server-tests:$ktor_version"
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.11.3"
     implementation("io.ktor:ktor-client-cio-jvm:$ktor_version")
-    compile "org.jetbrains:space-sdk-jvm:59455-beta"
+    compile "org.jetbrains:space-sdk-jvm:72496-beta"
 }

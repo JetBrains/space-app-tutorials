@@ -2,9 +2,12 @@ package com.remindme
 
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import space.jetbrains.api.runtime.helpers.commandArguments
 import space.jetbrains.api.runtime.helpers.message
-import space.jetbrains.api.runtime.types.*
-import space.jetbrains.yana.commandArguments
+import space.jetbrains.api.runtime.types.ApiIcon
+import space.jetbrains.api.runtime.types.ChatMessage
+import space.jetbrains.api.runtime.types.MessageOutline
+import space.jetbrains.api.runtime.types.MessagePayload
 
 suspend fun commandRemind(context: CallContext, payload: MessagePayload) {
     val args = payload.commandArguments()
