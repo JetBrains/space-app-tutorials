@@ -5,7 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="JetBrains.Space.AspNetCore" Version="1.0.0-beta.65553.9015" />
+      <PackageReference Include="JetBrains.Space.AspNetCore" Version="1.0.0-beta.81103.9061" />
     </ItemGroup>
 
 </Project>
