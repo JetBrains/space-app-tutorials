@@ -7,47 +7,57 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import kotlinx.coroutines.launch
+import space.jetbrains.api.runtime.types.*
 import space.jetbrains.api.runtime.helpers.command
 import space.jetbrains.api.runtime.helpers.readPayload
-import space.jetbrains.api.runtime.types.ListCommandsPayload
-import space.jetbrains.api.runtime.types.MessageActionPayload
-import space.jetbrains.api.runtime.types.MessagePayload
 
-fun Routing.backToSpace() {
-    get("/api/back-to-space") {
-        call.respondText("Hello from the remind-me bot!", ContentType.Text.Plain)
+fun Routing.api() {
+
+    get("/") {
+        call.respondText("Hello from bot!")
     }
 
-    post("api/back-to-space") {
-        val payload = readPayload(call.receiveText()).also {
-            if (!verifyPayload(it)) {
-                call.respond(HttpStatusCode.Unauthorized)
-                return@post
-            }
-        }
+    post("api/myapp"){
+        // read request body
+        val body = call.receiveText()
+        // read headers required for Space verification
+        val signature = call.request.header("X-Space-Public-Key-Signature")
+        val timestamp = call.request.header("X-Space-Timestamp")
+        // verify the request
+        val verified = signature != null && timestamp != null &&
+                verifyRequestWithPublicKey(body, signature, timestamp)
 
+        if (!verified) {
+            call.respond(HttpStatusCode.Unauthorized)
+            return@post
+        }
+        // read payload and get context (user id)
+        val payload = readPayload(body)
         val context = getCallContext(payload)
+        // JSON serializer
         val jackson = ObjectMapper()
 
+        // analyze the message payload
+        // MessageActionPayload = user clicks a button
+        // MessagePayload = user sends a command
+        // ListCommandsPayload = user types a slash or a char
         when (payload) {
             is MessageActionPayload -> {
                 when (payload.actionId) {
                     "remind" -> {
                         // The reminder can be set on any time
-                        // As this could be a really long time interval,
+                        // As this could be a long time interval,
                         // we run commandRemind in a separate thread
                         launch { commandRemind(context, payload) }
                     }
                     else -> error("Unknown command ${payload.actionId}")
                 }
-                // After sending a command, Space will wait for OK confirmation
+                // After sending a command, Space will wait for HTTP OK confirmation
                 call.respond(HttpStatusCode.OK, "")
             }
             is ListCommandsPayload -> {
-                call.respondText(
-                    jackson.writeValueAsString(commandListAllCommands(context)),
-                    ContentType.Application.Json
-                )
+                call.respondText(jackson.writeValueAsString(commandListAllCommands(context)),
+                    ContentType.Application.Json)
             }
             is MessagePayload -> {
                 val command = commands.find { it.name == payload.command() }

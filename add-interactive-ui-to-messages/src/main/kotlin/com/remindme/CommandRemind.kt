@@ -3,13 +3,19 @@ package com.remindme
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import space.jetbrains.api.runtime.helpers.MessageControlGroupBuilder
-import space.jetbrains.api.runtime.helpers.commandArguments
 import space.jetbrains.api.runtime.helpers.message
+import space.jetbrains.api.runtime.helpers.commandArguments
 import space.jetbrains.api.runtime.types.*
 
 suspend fun commandRemind(context: CallContext, payload: MessagePayload) {
     val args = payload.commandArguments()
     val delayMs = args?.toLongOrNull()?.times(1000)
+    runTimer(context, delayMs)
+}
+
+suspend fun commandRemind(context: CallContext, payload: MessageActionPayload) {
+    val args = payload.actionValue
+    val delayMs = args.toLongOrNull()
     runTimer(context, delayMs)
 }
 
@@ -21,7 +27,8 @@ private suspend fun runTimer(context: CallContext, delayMs: Long?) {
             sendMessage(context, remindMessage(delayMs))
         }
     } else {
-        // if user doesn't specify interval show buttons
+        // This is the line to edit!
+        // if user doesn't specify interval, show buttons
         sendMessage(context, suggestRemindMessage())
     }
 }
@@ -56,6 +63,7 @@ fun suggestRemindMessage(): ChatMessage {
         section {
             header = "Remind me in ..."
             controls {
+                // buttons for 5, 60, and 300 seconds
                 remindButton(5 * 1000)
                 remindButton(60 * 1000)
                 remindButton(300 * 1000)
@@ -63,10 +71,3 @@ fun suggestRemindMessage(): ChatMessage {
         }
     }
 }
-
-suspend fun commandRemind(context: CallContext, payload: MessageActionPayload) {
-    val args = payload.actionValue
-    val delayMs = args.toLongOrNull()
-    runTimer(context, delayMs)
-}
-
