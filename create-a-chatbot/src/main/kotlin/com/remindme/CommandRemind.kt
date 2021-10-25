@@ -2,12 +2,9 @@ package com.remindme
 
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
-import space.jetbrains.api.runtime.helpers.commandArguments
 import space.jetbrains.api.runtime.helpers.message
-import space.jetbrains.api.runtime.types.ApiIcon
-import space.jetbrains.api.runtime.types.ChatMessage
-import space.jetbrains.api.runtime.types.MessageOutline
-import space.jetbrains.api.runtime.types.MessagePayload
+import space.jetbrains.api.runtime.helpers.commandArguments
+import space.jetbrains.api.runtime.types.*
 
 suspend fun commandRemind(context: CallContext, payload: MessagePayload) {
     val args = payload.commandArguments()
@@ -18,7 +15,8 @@ suspend fun commandRemind(context: CallContext, payload: MessagePayload) {
 private suspend fun runTimer(context: CallContext, delayMs: Long?) {
     if (delayMs != null) {
         sendMessage(context, acceptRemindMessage(delayMs))
-        // we don't want to interrupt the thread, so, we'll put our delay inside coroutineScope
+        // we don't want to interrupt the thread,
+        // so, we'll put our delay inside coroutineScope
         coroutineScope {
             delay(delayMs)
             sendMessage(context, remindMessage(delayMs))

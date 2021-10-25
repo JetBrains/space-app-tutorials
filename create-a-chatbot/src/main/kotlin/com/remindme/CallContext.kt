@@ -8,7 +8,7 @@ class CallContext(
 )
 
 // get userId from the payload
-suspend fun getCallContext(payload: ApplicationPayload): CallContext {
+fun getCallContext(payload: ApplicationPayload): CallContext {
     val userId = when (payload) {
         is ListCommandsPayload -> payload.userId ?: error("no user for command")
         is MessageActionPayload -> payload.userId

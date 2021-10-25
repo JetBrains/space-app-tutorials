@@ -25,6 +25,7 @@ val commands = listOf(
 
 // this is a response to the ListCommandsPayload
 // the bot must return a list of available commands
+// when a user types slash or a char
 fun commandListAllCommands(context: CallContext) = Commands(
     commands.map {
         it.toCommand()
