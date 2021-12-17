@@ -10,7 +10,6 @@ mainClassName = "com.ApplicationKt"
 repositories {
     mavenCentral()
     maven { url = "https://maven.pkg.jetbrains.space/public/p/space/maven" }
-    maven { url 'https://kotlin.bintray.com/kotlinx' }
 }
 
 dependencies {
