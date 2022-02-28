@@ -1,0 +1,24 @@
+plugins {
+    id 'application'
+    id 'org.jetbrains.kotlin.jvm' version '1.7.10'
+}
+
+group "com.linkpreviews"
+version "0.0.1"
+mainClassName = "com.linkpreviews.ApplicationKt"
+
+repositories {
+    mavenCentral()
+    maven { url "https://maven.pkg.jetbrains.space/public/p/space/maven" }
+}
+
+dependencies {
+    implementation "io.ktor:ktor-server-core:$ktor_version"
+    implementation "io.ktor:ktor-server-netty:$ktor_version"
+    implementation "ch.qos.logback:logback-classic:$logback_version"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0"
+    implementation "org.jetbrains:space-sdk-jvm:106390-beta"
+    implementation "io.ktor:ktor-client-core:$ktor_version"
+    implementation "io.ktor:ktor-client-cio:$ktor_version"
+    implementation "com.slack.api:slack-api-client:1.18.0"
+}
