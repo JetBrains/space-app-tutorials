@@ -16,6 +16,9 @@ group = "com.example"
 version = "1.0-SNAPSHOT"
 
 repositories {
+    mavenLocal()
+    maven("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
+
     maven("https://maven.pkg.jetbrains.space/public/p/space/maven")
     mavenCentral()
 }

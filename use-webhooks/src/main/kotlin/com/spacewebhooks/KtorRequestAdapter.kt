@@ -1,9 +1,9 @@
 package com.spacewebhooks
 
-import io.ktor.application.*
 import io.ktor.http.*
-import io.ktor.request.*
-import io.ktor.response.*
+import io.ktor.server.application.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
 import space.jetbrains.api.ExperimentalSpaceSdkApi
 import space.jetbrains.api.runtime.helpers.RequestAdapter
 import space.jetbrains.api.runtime.ktorClientForSpace

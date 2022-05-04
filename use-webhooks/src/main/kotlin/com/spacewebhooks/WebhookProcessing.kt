@@ -17,7 +17,7 @@ suspend fun ProcessingScope.processWebhookEvent(payload: WebhookRequestPayload) 
     val client = clientWithClientCredentials()
     when (val event = payload.payload) {
         is ProfileOrganizationEvent -> {
-            if (event.joinedOrganization == true)
+            if (event.joinedOrganization)
                 client.sendMessage(event.member.id, messageToNewOrgMember())
         }
 
