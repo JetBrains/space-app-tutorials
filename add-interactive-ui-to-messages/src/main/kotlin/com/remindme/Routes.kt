@@ -1,15 +1,18 @@
 package com.remindme
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import io.ktor.application.*
 import io.ktor.http.*
-import io.ktor.request.*
-import io.ktor.response.*
-import io.ktor.routing.*
+import io.ktor.server.application.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 import kotlinx.coroutines.launch
-import space.jetbrains.api.runtime.types.*
 import space.jetbrains.api.runtime.helpers.command
 import space.jetbrains.api.runtime.helpers.readPayload
+import space.jetbrains.api.runtime.helpers.verifyWithPublicKey
+import space.jetbrains.api.runtime.types.ListCommandsPayload
+import space.jetbrains.api.runtime.types.MessageActionPayload
+import space.jetbrains.api.runtime.types.MessagePayload
 
 fun Routing.api() {
 
@@ -20,17 +23,20 @@ fun Routing.api() {
     post("api/myapp"){
         // read request body
         val body = call.receiveText()
-        // read headers required for Space verification
-        val signature = call.request.header("X-Space-Public-Key-Signature")
-        val timestamp = call.request.header("X-Space-Timestamp")
-        // verify the request
-        val verified = signature != null && timestamp != null &&
-                verifyRequestWithPublicKey(body, signature, timestamp)
 
-        if (!verified) {
+        // verify if the request comes from a trusted Space instance
+        val signature = call.request.header("X-Space-Public-Key-Signature")
+        val timestamp = call.request.header("X-Space-Timestamp")?.toLongOrNull()
+        // verifyWithPublicKey gets a key from Space, uses it to generate message hash
+        // and compares the generated hash to the hash in a message
+        if (signature.isNullOrBlank() || timestamp == null || !spaceClient.verifyWithPublicKey(
+                body, timestamp, signature
+            )
+        ) {
             call.respond(HttpStatusCode.Unauthorized)
             return@post
         }
+
         // read payload and get context (user id)
         val payload = readPayload(body)
         val context = getCallContext(payload)

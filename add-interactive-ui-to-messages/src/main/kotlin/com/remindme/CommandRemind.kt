@@ -35,7 +35,7 @@ private suspend fun runTimer(context: CallContext, delayMs: Long?) {
 
 fun acceptRemindMessage(delayMs: Long): ChatMessage {
     return message {
-        outline = MessageOutline(
+        MessageOutlineLegacy(
             icon = ApiIcon("smile"),
             text = "I will remind you in ${delayMs / 1000} seconds"
         )
@@ -44,7 +44,7 @@ fun acceptRemindMessage(delayMs: Long): ChatMessage {
 
 fun remindMessage(delayMs: Long): ChatMessage {
     return message {
-        outline = MessageOutline(
+        MessageOutlineLegacy(
             icon = ApiIcon("smile"),
             text = "Hey! ${delayMs / 1000} seconds are over!"
         )
@@ -61,7 +61,7 @@ fun MessageControlGroupBuilder.remindButton(delayMs: Long) {
 fun suggestRemindMessage(): ChatMessage {
     return message {
         section {
-            header = "Remind me in ..."
+            text("Remind me in ...")
             controls {
                 // buttons for 5, 60, and 300 seconds
                 remindButton(5 * 1000)

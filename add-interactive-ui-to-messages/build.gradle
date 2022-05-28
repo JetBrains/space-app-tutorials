@@ -1,6 +1,6 @@
 plugins {
     id 'application'
-    id 'org.jetbrains.kotlin.jvm' version '1.5.31'
+    id 'org.jetbrains.kotlin.jvm' version '1.6.21'
 }
 
 group "com"
@@ -9,19 +9,18 @@ mainClassName = "com.ApplicationKt"
 
 repositories {
     mavenCentral()
-    maven { url = "https://maven.pkg.jetbrains.space/public/p/space/maven" }
+    maven { url "https://maven.pkg.jetbrains.space/public/p/ktor/eap" }
+    maven { url "https://maven.pkg.jetbrains.space/public/p/space/maven" }
 }
 
 dependencies {
     implementation "io.ktor:ktor-server-core:$ktor_version"
     implementation "io.ktor:ktor-server-netty:$ktor_version"
     implementation "ch.qos.logback:logback-classic:$logback_version"
-    testImplementation "io.ktor:ktor-server-tests:$ktor_version"
-    testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
-    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0'
-    // we use version 81262, but when you read this tutorial
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3'
+    // we use version 99662, but when you read this tutorial
     // a newer version may be already available
-    implementation "org.jetbrains:space-sdk-jvm:81262-beta"
+    implementation "org.jetbrains:space-sdk-jvm:99662-beta"
     implementation "io.ktor:ktor-client-core:$ktor_version"
     implementation "io.ktor:ktor-client-cio:$ktor_version"
 }

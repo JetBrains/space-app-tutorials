@@ -1,8 +1,8 @@
 package com.remindme.plugins
 
 import com.remindme.api
-import io.ktor.application.*
-import io.ktor.routing.*
+import io.ktor.server.routing.*
+import io.ktor.server.application.*
 
 fun Application.configureRouting() {
     routing {

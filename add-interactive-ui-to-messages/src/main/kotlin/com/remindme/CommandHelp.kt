@@ -9,12 +9,12 @@ suspend fun commandHelp(context: CallContext) {
 
 fun helpMessage(): ChatMessage {
     return message {
-        outline = MessageOutline(
+        MessageOutlineLegacy(
             icon = ApiIcon("smile"),
             text = "Remind me bot help"
         )
         section {
-            header = "List of available commands"
+            text("List of available commands")
             fields {
                 commands.forEach {
                     field(it.name, it.info)
