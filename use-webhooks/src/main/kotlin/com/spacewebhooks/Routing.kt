@@ -1,46 +1,42 @@
 package com.spacewebhooks
 
-import io.ktor.routing.*
-import io.ktor.application.*
 import io.ktor.http.*
-import io.ktor.request.*
-import io.ktor.response.*
-import org.apache.commons.codec.digest.HmacAlgorithms
-import org.apache.commons.codec.digest.HmacUtils
+import io.ktor.server.application.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 import space.jetbrains.api.runtime.Batch
 import space.jetbrains.api.runtime.BatchInfo
-import space.jetbrains.api.runtime.helpers.*
+import space.jetbrains.api.runtime.helpers.readPayload
+import space.jetbrains.api.runtime.helpers.verifyWithPublicKey
 import space.jetbrains.api.runtime.resources.teamDirectory
-import space.jetbrains.api.runtime.types.*
-
-const val signingKey = "signing-key-issued-during-app-registration"
+import space.jetbrains.api.runtime.types.PingWebhookEvent
+import space.jetbrains.api.runtime.types.ProfileOrganizationEvent
+import space.jetbrains.api.runtime.types.TeamMembershipEvent
+import space.jetbrains.api.runtime.types.WebhookRequestPayload
 
 fun Application.configureRouting() {
     routing {
-        get("/api/back-to-space") {
+        get("/api/webhooks") {
             call.respondText("Let's handle some webhooks!", ContentType.Text.Plain)
         }
 
-        post("/api/back-to-space") {
+        post("/api/webhooks") {
             val body = call.receiveText()
-            println(body)
-
-            //region Verify request from Space
-            val signature = call.request.header("X-Space-Signature")
-            val timestamp = call.request.header("X-Space-Timestamp")
-
-            val verified = signature != null && timestamp != null &&
-                    verifyPayloadWithSigningKey(body, signature, timestamp)
-
-            if (!verified) {
+            // verify if the request comes from a trusted Space instance
+            val signature = call.request.header("X-Space-Public-Key-Signature")
+            val timestamp = call.request.header("X-Space-Timestamp")?.toLongOrNull()
+            // verifyWithPublicKey gets a key from Space, uses it to generate message hash
+            // and compares the generated hash to the hash in a message
+            if (signature.isNullOrBlank() || timestamp == null || !spaceClient.verifyWithPublicKey(
+                    body, timestamp, signature
+                )
+            ) {
                 call.respond(HttpStatusCode.Unauthorized)
                 return@post
             }
-            //endregion
 
-            val payload = readPayload(body)
-
-            val event = when (payload) {
+            val event = when (val payload = readPayload(body)) {
                 // we process only payload from webhooks
                 is WebhookRequestPayload -> payload.payload
                 else -> error("Unexpected payload type")
@@ -53,10 +49,10 @@ fun Application.configureRouting() {
                     val userId = event.member.id
                     val joined = event.joinedOrganization
 
-                    if (joined != null && joined == true)
+                    if (joined)
                         sendMessage(userId, welcomeMessage())
 
-                    call.respond(HttpStatusCode.OK, "Sent message to the new org member")
+                    call.respond(HttpStatusCode.OK, "Sent a message to the new org member")
                 }
 
                 // process 'user added to a team' event
@@ -71,7 +67,7 @@ fun Application.configureRouting() {
                         }
                     }
 
-                    call.respond(HttpStatusCode.OK, "Sent message to the new team member")
+                    call.respond(HttpStatusCode.OK, "Sent a message to the new team member")
                 }
 
                 is PingWebhookEvent -> {
@@ -87,25 +83,25 @@ fun Application.configureRouting() {
 // as the getAllMemberships method may return a lot of items,
 // we request memberships in batches (size 100)
 private suspend fun getTeamNameByMembershipId(membershipId: String): String? {
-    var membershipsBatchInfo = BatchInfo("0", 100)
+    var membershipBatchInfo = BatchInfo("0", 100)
 
     do {
-        val membershipsBatch = spaceClient.teamDirectory.memberships
-            .getAllMemberships(batchInfo = membershipsBatchInfo) {
+        val membershipBatch = spaceClient.teamDirectory.memberships
+            .getAllMemberships(batchInfo = membershipBatchInfo) {
                 id()
                 team {
                     name()
                 }
             }
 
-        membershipsBatch.data.forEach { membership ->
+        membershipBatch.data.forEach { membership ->
             if (membershipId == membership.id) {
                 return membership.team.name
             }
         }
 
-        membershipsBatchInfo = BatchInfo(membershipsBatch.next, 100)
-    } while (membershipsBatch.hasNext())
+        membershipBatchInfo = BatchInfo(membershipBatch.next, 100)
+    } while (membershipBatch.hasNext())
 
     return null
 }
@@ -114,34 +110,26 @@ private suspend fun getTeamNameByMembershipId(membershipId: String): String? {
 // as the getAllMemberships method may return a lot of items,
 // we request memberships in batches (size 100)
 private suspend fun getUserIdByMembershipId(membershipId: String): String? {
-    var membershipsBatchInfo = BatchInfo("0", 100)
+    var membershipBatchInfo = BatchInfo("0", 100)
 
     do {
-        val membershipsBatch = spaceClient.teamDirectory.memberships
-            .getAllMemberships(batchInfo = membershipsBatchInfo) {
+        val membershipBatch = spaceClient.teamDirectory.memberships
+            .getAllMemberships(batchInfo = membershipBatchInfo) {
                 id()
                 member {
                     id()
                 }
             }
 
-        membershipsBatch.data.forEach { membership ->
+        membershipBatch.data.forEach { membership ->
             if (membershipId == membership.id) {
-                return membership.member?.id
+                return membership.member.id
             }
         }
 
-        membershipsBatchInfo = BatchInfo(membershipsBatch.next, 100)
-    } while (membershipsBatch.hasNext())
+        membershipBatchInfo = BatchInfo(membershipBatch.next, 100)
+    } while (membershipBatch.hasNext())
 
     return null
 }
-
-fun verifyPayloadWithSigningKey(body: String, signature: String, timestamp: String) : Boolean {
-    val checkedSignature =
-        HmacUtils(HmacAlgorithms.HMAC_SHA_256, signingKey).
-        hmacHex("$timestamp:$body")
-    return signature == checkedSignature
-}
-
 fun Batch<*>.hasNext() = data.isNotEmpty()

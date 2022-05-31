@@ -1,6 +1,6 @@
 plugins {
     id 'application'
-    id 'org.jetbrains.kotlin.jvm' version '1.4.32'
+    id 'org.jetbrains.kotlin.jvm' version '1.6.21'
 }
 
 group "com"
@@ -11,22 +11,16 @@ repositories {
     jcenter()
     mavenCentral()
     maven { url 'https://kotlin.bintray.com/kotlinx' }
-    maven {
-        url "https://maven.pkg.jetbrains.space/public/p/space-sdk/maven"
-        credentials {
-            username = "$username"
-            password = "$password"
-        }
-    }
+    maven { url "https://maven.pkg.jetbrains.space/public/p/ktor/eap" }
+    maven { url "https://maven.pkg.jetbrains.space/public/p/space/maven" }
 }
 
 dependencies {
     implementation "io.ktor:ktor-server-core:$ktor_version"
     implementation "io.ktor:ktor-server-netty:$ktor_version"
     implementation "ch.qos.logback:logback-classic:$logback_version"
-    testImplementation "io.ktor:ktor-server-tests:$ktor_version"
-    implementation "org.jetbrains:space-sdk-jvm:73053-beta"
-    compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.11.3"
+    implementation "org.jetbrains:space-sdk-jvm:99662-beta"
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3"
     compile group: 'commons-codec', name: 'commons-codec', version: '1.15'
     implementation("io.ktor:ktor-client-cio-jvm:$ktor_version")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
