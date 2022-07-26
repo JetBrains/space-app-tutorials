@@ -1,7 +1,7 @@
-/.gradle/
+**/.gradle/
 /.idea/
 **/build/
-/buildSrc/.gradle/
-/buildSrc/build/
+**/buildSrc/.gradle/
+**/buildSrc/build/
 **/bin/
 **/obj/
