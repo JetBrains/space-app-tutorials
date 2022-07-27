@@ -5,7 +5,7 @@ import io.ktor.server.netty.*
 import com.remindme.plugins.*
 
 fun main() {
-    embeddedServer(Netty, port = 3000) {
+    embeddedServer(Netty, port = 8080) {
         configureRouting()
     }.start(wait = true)
 }
