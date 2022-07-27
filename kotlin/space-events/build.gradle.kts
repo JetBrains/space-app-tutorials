@@ -9,6 +9,7 @@ val postgresql_driver_version: String by project
 
 plugins {
     kotlin("jvm") version "1.7.10"
+    id("docker-compose")
     application
 }
 
@@ -22,7 +23,7 @@ repositories {
 
 dependencies {
     implementation("io.ktor:ktor-server-core:$ktor_version")
-    implementation("io.ktor:ktor-server-netty:$ktor_version")
+    implementation("io.ktor:ktor-server-jetty-jvm:$ktor_version")
 
     implementation("ch.qos.logback:logback-classic:$logback_version")
 
@@ -41,6 +42,12 @@ dependencies {
     testImplementation(kotlin("test"))
 }
 
+dockerCompose {
+    projectName = "space-events"
+    removeContainers = false
+    removeVolumes = false
+}
+
 tasks.test {
     useJUnitPlatform()
 }
@@ -49,6 +56,11 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
+tasks {
+    val run by getting(JavaExec::class)
+    dockerCompose.isRequiredBy(run)
+}
+
 application {
-    mainClass.set("ApplicationKt")
+    mainClass.set("io.ktor.server.jetty.EngineMain")
 }
