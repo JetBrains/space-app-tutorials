@@ -1,20 +1,18 @@
 package com.remindme
 
-import space.jetbrains.api.runtime.types.*
+import space.jetbrains.api.runtime.helpers.userId
+import space.jetbrains.api.runtime.types.ApplicationPayload
 
-// here can be any context info, e.g. user info, payload, etc.
+/**
+ * This is an example of how you can organize the data used during the call processing.
+ * You can put more data in here, for example, user information.
+ */
 class CallContext(
     val userId: String
 )
 
-// get userId from the payload
 fun getCallContext(payload: ApplicationPayload): CallContext {
-    val userId = when (payload) {
-        is ListCommandsPayload -> payload.userId ?: error("no user for command")
-        is MessageActionPayload -> payload.userId
-        is MessagePayload -> payload.userId
-        else -> error("unknown command")
-    }
-
-    return CallContext(userId)
+    return CallContext(
+        userId = payload.userId ?: throw IllegalArgumentException("payload without userId is not expected")
+    )
 }

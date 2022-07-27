@@ -1,33 +1,43 @@
 package com.remindme
 
-import space.jetbrains.api.runtime.types.*
+import space.jetbrains.api.runtime.types.CommandDetail
+import space.jetbrains.api.runtime.types.Commands
+import space.jetbrains.api.runtime.types.ListCommandsPayload
+import space.jetbrains.api.runtime.types.MessagePayload
 
-class Command(
+/**
+ * A command that the application can execute.
+ */
+class ApplicationCommand(
     val name: String,
     val info: String,
     val run: suspend (context: CallContext, payload: MessagePayload) -> Unit
 ) {
-    // part of the protocol - returns info about a command to the chat
-    fun toCommand() = CommandDetail(name, info)
+    /**
+     * [CommandDetail] is returned to Space with an information about the command. List of commands
+     * is shown to the user.
+     */
+    fun toSpaceCommand() = CommandDetail(name, info)
 }
 
-val commands = listOf(
-    Command(
+val supportedCommands = listOf(
+    ApplicationCommand(
         "help",
         "Show this help",
-    ) { context, payload -> commandHelp(context) },
+    ) { context, _ -> runHelpCommand(context) },
 
-    Command(
+    ApplicationCommand(
         "remind",
-        "Remind me in N seconds, e.g., to remind in 10 seconds, send 'remind 10' ",
-    ) { context, payload -> commandRemind(context, payload) }
+        "Remind me about something in N seconds, e.g., to remind about \"the thing\" in 10 seconds, send 'remind 10 the thing' ",
+    ) { context, payload -> runRemindCommand(context, payload) }
 )
 
-// this is a response to the ListCommandsPayload
-// the bot must return a list of available commands
-// when a user types slash or a char
-fun commandListAllCommands(context: CallContext) = Commands(
-    commands.map {
-        it.toCommand()
+/**
+ * Response to the [ListCommandsPayload]. Space will display the returned commands as commands supported
+ * by your application.
+ */
+fun getSupportedCommands() = Commands(
+    supportedCommands.map {
+        it.toSpaceCommand()
     }
 )

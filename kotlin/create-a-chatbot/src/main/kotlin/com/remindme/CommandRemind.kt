@@ -1,45 +1,66 @@
 package com.remindme
 
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
-import space.jetbrains.api.runtime.helpers.message
 import space.jetbrains.api.runtime.helpers.commandArguments
+import space.jetbrains.api.runtime.helpers.message
 import space.jetbrains.api.runtime.types.*
 
-suspend fun commandRemind(context: CallContext, payload: MessagePayload) {
-    val args = payload.commandArguments()
-    val delayMs = args?.toLongOrNull()?.times(1000)
-    runTimer(context, delayMs)
-}
-
-private suspend fun runTimer(context: CallContext, delayMs: Long?) {
-    if (delayMs != null) {
-        sendMessage(context, acceptRemindMessage(delayMs))
-        // we don't want to interrupt the thread,
-        // so, we'll put our delay inside coroutineScope
-        coroutineScope {
-            delay(delayMs)
-            sendMessage(context, remindMessage(delayMs))
-        }
-    } else {
+suspend fun runRemindCommand(context: CallContext, payload: MessagePayload) {
+    val remindMeArgs = getArgs(payload) ?: run {
         sendMessage(context, helpMessage())
+        return
+    }
+
+    remindAfterDelay(context, remindMeArgs)
+}
+
+private suspend fun remindAfterDelay(context: CallContext, remindMeArgs: RemindMeArgs) {
+    sendMessage(context, acceptRemindMessage(remindMeArgs))
+
+    delay(remindMeArgs.delayMs)
+    sendMessage(context, remindMessage(remindMeArgs))
+}
+
+private fun acceptRemindMessage(remindMeArgs: RemindMeArgs): ChatMessage {
+    return message {
+        outline(
+            MessageOutline(
+                icon = ApiIcon("checkbox-checked"),
+                text = "Reminder accepted"
+            )
+        )
+        section {
+            text("I will remind you in ${remindMeArgs.delayMs / 1000} seconds about \"${remindMeArgs.reminderText}\"")
+        }
     }
 }
 
-fun acceptRemindMessage(delayMs: Long): ChatMessage {
+private fun remindMessage(remindMeArgs: RemindMeArgs): ChatMessage {
     return message {
-        MessageOutlineLegacy(
-            icon = ApiIcon("smile"),
-            text = "I will remind you in ${delayMs / 1000} seconds"
+        outline(
+            MessageOutline(
+                icon = ApiIcon("clock"),
+                text = "Reminder"
+            )
         )
+        section {
+            text(remindMeArgs.reminderText)
+            text(
+                size = MessageTextSize.SMALL,
+                content = "${remindMeArgs.delayMs / 1000} seconds have passed"
+            )
+        }
     }
 }
 
-fun remindMessage(delayMs: Long): ChatMessage {
-    return message {
-        MessageOutlineLegacy(
-            icon = ApiIcon("smile"),
-            text = "Hey! ${delayMs / 1000} seconds are over!"
-        )
-    }
+private fun getArgs(payload: MessagePayload): RemindMeArgs? {
+    val args = payload.commandArguments() ?: return null
+    val delayMs = args.substringBefore(" ").toLongOrNull()?.times(1000) ?: return null
+    val reminderText = args.substringAfter(" ").trimStart().takeIf { it.isNotEmpty() } ?: return null
+    return RemindMeArgs(delayMs, reminderText)
 }
+
+private class RemindMeArgs(
+    val delayMs: Long,
+    val reminderText: String,
+)
