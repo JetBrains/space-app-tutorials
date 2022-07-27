@@ -5,10 +5,10 @@ val ktor_version: String by project
 val logback_version: String by project
 val exposed_version: String by project
 val hikari_version: String by project
-val postgres_version: String by project
+val postgresql_driver_version: String by project
 
 plugins {
-    kotlin("jvm") version "1.6.20"
+    kotlin("jvm") version "1.7.10"
     application
 }
 
@@ -16,11 +16,8 @@ group = "com.example"
 version = "1.0-SNAPSHOT"
 
 repositories {
-    mavenLocal()
-    maven("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
-
-    maven("https://maven.pkg.jetbrains.space/public/p/space/maven")
     mavenCentral()
+    maven("https://maven.pkg.jetbrains.space/public/p/space/maven")
 }
 
 dependencies {
@@ -39,7 +36,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-java-time:$exposed_version")
     implementation("com.zaxxer:HikariCP:$hikari_version")
-    implementation("org.postgresql:postgresql:$postgres_version")
+    implementation("org.postgresql:postgresql:$postgresql_driver_version")
 
     testImplementation(kotlin("test"))
 }
