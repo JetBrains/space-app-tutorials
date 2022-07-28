@@ -7,6 +7,9 @@ about events in Space. The application tracks two types of events:
 * Adding a user to a team named `MyTeam`: once a user is added to the team, the application sends an on-boarding message
   to the user.
 
+Webhooks can be created manually for your applications in Space UI, or they can be created automatically via API. This
+app demonstrates the automatic creation of webhooks via API on app installation.
+
 ## Running application locally
 
 Run `./gradlew run` command to start the application. The application uses a Postgres database which it automatically

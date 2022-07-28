@@ -18,12 +18,12 @@ val spaceAppInstance = SpaceAppInstance(
      * Client Secret is a sensitive value. Normally you would pass it to the application
      * as an environment variable.
      */
-    clientId = "884541a0-b31f-4305-9e6f-ecab5dc9d675",
-    clientSecret = "fe2e6b3741629dfb4e7389cc1aede9699d9b7c9ce60b140b1ef2986cc8717ed0",
+    clientId = "<client id>",
+    clientSecret = "<client secret>",
     /**
      * URL of your Space instance
      */
-    spaceServerUrl = "https://elbrus-test.jetbrains.space/"
+    spaceServerUrl = "https://my-company.jetbrains.space/"
 )
 
 val spaceHttpClient = ktorClientForSpace()
