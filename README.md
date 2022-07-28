@@ -1,4 +1,4 @@
-# Space Applications: examples and tutorials
+# JetBrains Space Applications: examples and tutorials
 
 Please see the [documentation](https://jetbrains.com/help/space/applications.html) for JetBrains Space applications.
 
