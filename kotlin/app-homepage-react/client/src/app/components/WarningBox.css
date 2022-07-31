@@ -1,0 +1,25 @@
+.warning-box {
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--warning-color-50);
+    border-radius: 4px;
+
+    margin-bottom: 32px;
+}
+
+.warning-content-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    margin: 16px;
+}
+
+.warning-span {
+    color: var(--warning-color);
+}
+
+.warning-span-actionable {
+    cursor: pointer;
+    text-decoration: underline;
+}

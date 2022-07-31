@@ -111,12 +111,12 @@ Input parameters:
 
 When `true` is passed, the application iframe is subscribed for the changes in the current selected theme. When the
 user changes the theme (light/dark), the iframe will receive a message with the updated CSS variables, and can update
-its UI on the fly. You can see the example of corresponding code in `iframe/theme.js`.
+its UI on the fly. You can see the example of corresponding code in `iframe/theme.ts`.
 
 Response: an object with the following properties:
 - `properties`: an array of objects. Each object has two properties: `name` and `value`. The `name` is the name of the
 CSS variable and the `value` is its `value`. If you'd like to use the variables in your application, you need to loop
-through the array and set the variables for the iframe document. You can look at the example of such code in `iframe/theme.js`.
+through the array and set the variables for the iframe document. You can look at the example of such code in `iframe/theme.ts`.
 - `isDark`: a boolean value, `true` or `false`. Designates whether the currently selected UI theme is dark.
 
 ### RedirectWithConfirmationRequest

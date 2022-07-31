@@ -1,0 +1,28 @@
+.selectField {
+    display: flex;
+    flex-direction: column;
+
+    margin-right: 24px;
+}
+
+.pickChannelSpan {
+    font-size: 15px;
+    line-height: 22px;
+
+    margin-bottom: 8px;
+}
+
+.selectOption {
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+}
+
+.selectOptionFocused {
+    background-color: var(--list-item-hover-background-color);
+}
+
+.selectOptionNotFocused {
+    background-color: var(--input-background-color);
+}

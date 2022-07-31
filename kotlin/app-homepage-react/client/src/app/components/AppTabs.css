@@ -1,0 +1,6 @@
+.tab-group {
+    display: flex;
+    flex-direction: row;
+
+    margin-bottom: 24px;
+}

@@ -1,0 +1,63 @@
+/* Mimic Space button */
+.button {
+    height: 36px;
+    line-height: 30px;
+
+    padding-top: 0;
+    padding-right: 16px;
+    padding-left: 16px;
+    font-size: 15px;
+
+    border-style: solid;
+    border-width: 1px;
+    border-color: transparent;
+    border-radius: 4px;
+
+    align-items: stretch;
+    margin-top: 0;
+    text-align: center;
+    -webkit-user-select: none;
+    font-weight: normal;
+    -webkit-box-align: stretch;
+    transition-duration: 200ms, 200ms, 200ms;
+    transition-timing-function: ease, ease, ease;
+    transition-delay: 0s, 0s, 0s;
+    transition-property: color, border-color, background-color;
+}
+
+.buttonEnabled {
+    background-color: var(--ui-control-fill-color);
+    cursor: pointer;
+}
+
+.buttonEnabledLight {
+    color: white;
+}
+
+.buttonEnabledDark {
+    color: var(--text-color);
+}
+
+.buttonDisabledLight {
+    color: white;
+    border-color: transparent;
+    background-color: var(--text-color-15);
+}
+
+.buttonDisabledDark {
+    color: rgba(255, 255, 255, 0.3);
+    border-color: transparent;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.buttonEnabled:hover {
+    background-color: var(--ui-control-accent-color);
+}
+
+.buttonEnabled:active {
+    background-color: var(--ui-control-fill-color);
+}
+
+.buttonText {
+    white-space: nowrap;
+}
