@@ -7,7 +7,7 @@ Two steps are required to add an application homepage:
 * App must declare that it supports a homepage UI extension (see `InitPayload.kt`)
 * App must respond with html/css that will be displayed in an iframe for the homepage
 
-Application server uses Ktor to serve static content and process API requests. Client code is written using
+In this demo application the server uses Ktor to serve static content and process API requests. Client code is written using
 React and can be found in the `./client` directory.
 
 ## Running application locally
@@ -22,7 +22,7 @@ The Postgres database is run using the default port `5432`. If you'd like to cha
 
 ## Public URL for locally running app
 
-For Space to be able to send events to your application, the application needs to be exposed via a public URL. One way
+For Space to be able to send requests to your application, the application needs to be exposed via a public URL. One way
 to do this is to use `ngrok`. After installing `ngrok` locally, run:
 
 ```shell
