@@ -1,0 +1,32 @@
+.send-message-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    margin-bottom: 24px;
+}
+
+.text-field {
+    display: flex;
+    flex-direction: column;
+
+    width: 400px;
+
+    margin-bottom: 24px;
+}
+
+.text-field-label {
+    margin-bottom: 4px;
+}
+
+.text-input {
+    line-height: 32px;
+    font-size: 22px;
+
+    background-color: var(--background-color);
+    border: 1px solid;
+    border-color: var(--secondary-text-color);
+
+    color: var(--text-color);
+    outline:none;
+}

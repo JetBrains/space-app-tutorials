@@ -1,7 +1,9 @@
-package org.webhooks
+package org.homepage
 
+import com.typesafe.config.Config
+import com.typesafe.config.ConfigFactory
 import io.ktor.server.application.*
-import org.webhooks.db.initDbConnection
+import org.homepage.db.initDbConnection
 import space.jetbrains.api.runtime.ktorClientForSpace
 
 @Suppress("unused")

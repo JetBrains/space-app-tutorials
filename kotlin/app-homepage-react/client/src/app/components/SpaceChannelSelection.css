@@ -1,0 +1,22 @@
+.channel-select-container {
+    display: flex;
+    flex-direction: row;
+
+    margin-bottom: 24px;
+}
+
+.channel-select-field {
+    display: flex;
+    flex-direction: column;
+
+    margin-bottom: 8px;
+}
+
+.channel-select-field-header {
+    margin-bottom: 4px;
+}
+
+.select-field-with-loader {
+    display: flex;
+    flex-direction: row;
+}

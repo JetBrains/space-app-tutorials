@@ -1,0 +1,15 @@
+.tab-container {
+    margin-right: 16px;
+}
+
+.tab-container-active {
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-bottom-color: var(--text-color);
+}
+
+.tab-container-inactive {
+    color: var(--secondary-text-color);
+
+    cursor: pointer;
+}
