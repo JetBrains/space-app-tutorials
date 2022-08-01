@@ -10,6 +10,7 @@ val postgresDriverVersion: String by project
 
 plugins {
     kotlin("jvm") version "1.7.0"
+    id("docker-compose")
     application
 }
 
@@ -29,7 +30,7 @@ repositories {
 
 dependencies {
     implementation("io.ktor:ktor-server-core:$ktorVersion")
-    implementation("io.ktor:ktor-server-netty:$ktorVersion")
+    implementation("io.ktor:ktor-server-jetty-jvm:$ktorVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
 
     implementation("io.ktor:ktor-client-core:$ktorVersion")
@@ -55,6 +56,17 @@ kotlin.sourceSets.all {
     }
 }
 
+dockerCompose {
+    projectName = "space-events"
+    removeContainers = false
+    removeVolumes = false
+}
+
+tasks {
+    val run by getting(JavaExec::class)
+    dockerCompose.isRequiredBy(run)
+}
+
 tasks.test {
     useJUnitPlatform()
 }
@@ -64,5 +76,5 @@ tasks.withType<KotlinCompile> {
 }
 
 application {
-    mainClass.set("MainKt")
+    mainClass.set("io.ktor.server.jetty.EngineMain")
 }

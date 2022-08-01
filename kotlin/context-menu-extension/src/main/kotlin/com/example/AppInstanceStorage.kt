@@ -1,6 +1,6 @@
 package com.example
 
-import org.homepage.db.AppInstallation
+import com.example.db.AppInstallation
 import org.jetbrains.exposed.sql.replace
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction

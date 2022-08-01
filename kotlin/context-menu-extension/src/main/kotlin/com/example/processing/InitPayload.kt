@@ -1,11 +1,9 @@
-@file:OptIn(ExperimentalSpaceSdkApi::class)
-
 package com.example.processing
 
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.http.content.*
-import space.jetbrains.api.ExperimentalSpaceSdkApi
 import space.jetbrains.api.runtime.Option
 import space.jetbrains.api.runtime.helpers.ProcessingScope
 import space.jetbrains.api.runtime.resources.applications
@@ -43,10 +41,10 @@ suspend fun ProcessingScope.setAppIcon() {
 
     val serverUrl = client.server.serverUrl
     val token = client.auth.token(client.ktorClient, client.appInstance)
-    val attachmentId = client.ktorClient.put<String>("$serverUrl$uploadPath/issue.png") {
-        body = ByteArrayContent(imageBytes)
+    val attachmentId = client.ktorClient.put("$serverUrl$uploadPath/issue.png") {
+        setBody(ByteArrayContent(imageBytes))
         header(HttpHeaders.Authorization, "Bearer $token")
-    }
+    }.bodyAsText()
 
     client.applications.updateApplication(ApplicationIdentifier.Me, pictureAttachmentId = Option.Value(attachmentId))
 }
