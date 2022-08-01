@@ -12,6 +12,7 @@ and `dotnet` directories.
 * [Tutorial — How to provide Slack link previews](https://www.jetbrains.com/help/space/kotlin-how-to-unfurl-links.html). Source code for the final application is in [kotlin/slack-link-previews](https://github.com/JetBrains/space-app-tutorials/tree/main/kotlin/slack-link-previews).
 * [Example — How to receive events from Space](https://github.com/JetBrains/space-app-tutorials/tree/main/kotlin/space-events)
 * [Example — Application Homepage](https://github.com/JetBrains/space-app-tutorials/tree/main/kotlin/app-homepage-react)
+* [Example — Context menu extension](https://github.com/JetBrains/space-app-tutorials/tree/main/kotlin/context-menu-extension)
 
 ## .NET
 
