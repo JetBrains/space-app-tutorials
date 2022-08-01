@@ -20,7 +20,7 @@ and `dotnet` directories.
 
 ## Javascript
 
-* [Example — Application Homepage](https://github.com/JetBrains/space-app-tutorials/tree/main/js/app-homepage)
+* [Example — Application Homepage](https://github.com/JetBrains/space-app-tutorials/tree/main/js/app-homepage). A minimal example of a client-based app (only HTML/CSS/JS).
 
 ## Full application source code
 
