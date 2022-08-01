@@ -1,5 +1,7 @@
 package org.webhooks
 
+import com.typesafe.config.Config
+import com.typesafe.config.ConfigFactory
 import io.ktor.server.application.*
 import org.webhooks.db.initDbConnection
 import space.jetbrains.api.runtime.ktorClientForSpace
