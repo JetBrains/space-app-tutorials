@@ -54,8 +54,8 @@ namespace RemindMeBot
             }
             
             await _chatClient.Messages.SendMessageAsync(
-                MessageRecipient.Member(ProfileIdentifier.Id(payload.UserId)),
-                ChatMessage.Block(
+                recipient: MessageRecipient.Member(ProfileIdentifier.Id(payload.UserId)),
+                content: ChatMessage.Block(
                     outline: new MessageOutline($"I will remind you in {delayInSeconds} seconds", new ApiIcon("smile")),
                     sections: new List<MessageSectionElement>()));
             
@@ -66,8 +66,8 @@ namespace RemindMeBot
                     await Task.Delay(TimeSpan.FromSeconds(delayInSeconds));
                     
                     await _chatClient.Messages.SendMessageAsync(
-                        MessageRecipient.Member(ProfileIdentifier.Id(payload.UserId)),
-                        ChatMessage.Block(
+                        recipient: MessageRecipient.Member(ProfileIdentifier.Id(payload.UserId)),
+                        content: ChatMessage.Block(
                             outline: new MessageOutline($"Hey! {delayInSeconds} seconds are over!", new ApiIcon("smile")),
                             sections: new List<MessageSectionElement>()));
                 }
@@ -86,8 +86,8 @@ namespace RemindMeBot
                 new ListCommandsPayload { UserId = payload.UserId });
             
             await _chatClient.Messages.SendMessageAsync(
-                MessageRecipient.Member(ProfileIdentifier.Id(payload.UserId)),
-                ChatMessage.Block(
+                recipient: MessageRecipient.Member(ProfileIdentifier.Id(payload.UserId)),
+                content: ChatMessage.Block(
                     outline: new MessageOutline("Remind me bot help", new ApiIcon("smile")),
                     sections: new List<MessageSectionElement>
                     {
