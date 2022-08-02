@@ -1,17 +1,22 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
+using JetBrains.Space.Common;
+using RemindMeBot;
 
-namespace RemindMeBot
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddHttpClient();
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
-    }
-}
+// Space client API
+builder.Services.AddSingleton<Connection>(provider => 
+    new ClientCredentialsConnection(
+        new Uri(builder.Configuration["Space:ServerUrl"]),
+        builder.Configuration["Space:ClientId"],
+        builder.Configuration["Space:ClientSecret"],
+        provider.GetService<IHttpClientFactory>().CreateClient()));
+builder.Services.AddSpaceClientApi();
+            
+// Space webhook handler
+builder.Services.AddSpaceWebHookHandler<RemindMeBotHandler>(options => builder.Configuration.Bind("Space", options));
+
+var app = builder.Build();
+app.MapSpaceWebHookHandler<RemindMeBotHandler>("/space/receive");
+app.MapGet("/", () => "Space app is running.");
+app.Run();
