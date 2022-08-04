@@ -68,4 +68,13 @@ for ["How to Create a Chatbot" tutorial](https://www.jetbrains.com/help/space/ge
 
 ## Messages between iframe and Space UI
 
-Please see the description of the messages [here](https://github.com/JetBrains/space-app-tutorials/tree/main/js/app-homepage/README.md)
+You can send messages to Space web page from the iframe page using `postMessage` method in browser API. The
+following message types are supported:
+
+- `GetUserTokenRequest`
+- `GetThemePropertiesRequest`
+- `RedirectWithConfirmationRequest`
+- `ShowConfirmDialogRequest`
+
+Please see [the documentation](https://www.jetbrains.com/help/space/application-homepage.html#communication-between-space-and-iframe)
+for details.
