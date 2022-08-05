@@ -18,12 +18,7 @@ group = "com.example"
 version = "1.0-SNAPSHOT"
 
 repositories {
-    maven(url = "https://packages.jetbrains.team/maven/p/crl/maven") {
-        credentials {
-            username = rootProject.extensions.extraProperties["spaceUsername"] as String
-            password = rootProject.extensions.extraProperties["spacePassword"] as String
-        }
-    }
+    maven("https://maven.pkg.jetbrains.space/public/p/space/maven")
 
     mavenCentral()
 }
