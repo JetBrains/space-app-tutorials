@@ -37,8 +37,7 @@ in [Step 3 of "How to Create a Chatbot" tutorial](https://www.jetbrains.com/help
 This application is written as a multi-org application. It means that it can be installed into multiple organizations,
 or multiple times in a single organization.
 
-To install the application into a particular organization, follow the [installation link](https://jetbrains.com/space/app/install-app?name=Homepage%20demo&endpoint=https%3A%2F%2F
-space-app-homepage-example.eu-west-1.eks.intellij.net%2Fapi%2Fspace&code-flow-enabled=true&code-flow-redirect-uris=https%3A%2F%2Fnowhere.domain).
+To install the application into a particular organization, follow the [installation link](https://jetbrains.com/space/app/install-app?name=Homepage%20demo&endpoint=https%3A%2F%2Fspace-app-homepage-example.eu-west-1.eks.intellij.net%2Fapi%2Fspace&code-flow-enabled=true&code-flow-redirect-uris=https%3A%2F%2Fnowhere.domain).
 
 Read more about single- and multi-org
 applications [in the documentation](https://www.jetbrains.com/help/space/distribute-your-application.html).
