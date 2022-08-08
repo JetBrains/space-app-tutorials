@@ -27,6 +27,10 @@ fun Application.configureRouting() {
     }
 
     routing {
+        get("/health") {
+            call.respond(HttpStatusCode.OK)
+        }
+
         static("/space-iframe") {
             staticBasePackage = "space-iframe"
             resources(".")
