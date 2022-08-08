@@ -34,10 +34,23 @@ in [Step 3 of "How to Create a Chatbot" tutorial](https://www.jetbrains.com/help
 
 ## Installing the app into Space
 
-This application is written as a multi-org application. It means that it can be installed into multiple organizations,
+This application is written as a multi-org application, meaning that it can be installed into multiple organizations,
 or multiple times in a single organization.
 
-To install the application into a particular organization, follow the [installation link](https://jetbrains.com/space/app/install-app?name=Homepage%20demo&endpoint=https%3A%2F%2Fspace-app-homepage-example.eu-west-1.eks.intellij.net%2Fapi%2Fspace&code-flow-enabled=true&code-flow-redirect-uris=https%3A%2F%2Fnowhere.domain).
+The application is deployed for demo purposes and served on the following public url:
+
+[https://space-app-homepage-example.eu-west-1.eks.intellij.net](https://space-app-homepage-example.eu-west-1.eks.intellij.net/)
+
+The installation URL for the application includes the endpoint URL and other parameters:
+
+```
+https://jetbrains.com/space/app/install-app?name=Homepage%20demo&endpoint=https%3A%2F%2Fspace-app-homepage-example.eu-west-1.eks.intellij.net%2Fapi%2Fspace&code-flow-enabled=true&code-flow-redirect-uris=https%3A%2F%2Fnowhere.domain
+```
+
+Notice the `name`, `endpoint`, `code-flow-enabled` and `code-flow-redirect-uris` parameters.
+
+Here's [the same url as a link](https://jetbrains.com/space/app/install-app?name=Homepage%20demo&endpoint=https%3A%2F%2Fspace-app-homepage-example.eu-west-1.eks.intellij.net%2Fapi%2Fspace&code-flow-enabled=true&code-flow-redirect-uris=https%3A%2F%2Fnowhere.domain) 
+which you can follow to install the demo app to your Space organization.
 
 Read more about single- and multi-org
 applications [in the documentation](https://www.jetbrains.com/help/space/distribute-your-application.html).
