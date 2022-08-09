@@ -1,4 +1,4 @@
-# Application Homepage
+# Application Homepage demo
 
 This sample application demonstrates how you can create a homepage for your
 application in Space UI. Application server uses Ktor to serve static content and process API requests.
