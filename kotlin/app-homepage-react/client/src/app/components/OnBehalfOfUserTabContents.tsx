@@ -20,7 +20,7 @@ export function OnBehalfOfUserTabContents() {
         <>
             {
                 state.userTokenData.get() === undefined &&
-                <WarningBox text="Authorize the app to view channels and send messages on behalf of the user"
+                <WarningBox text="Authorize the app to view channels and send messages on behalf of the current user"
                             isActionable={true}
                             onAction={() => requestUserToken(
                                 true,
