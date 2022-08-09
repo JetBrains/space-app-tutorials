@@ -43,7 +43,9 @@ export function OnBehalfOfAppTabContents() {
                 key="OnBehalfOfTheApp"
                 userTokenData={state.userTokenData.get()}
                 apiImpl={onBehalfOfTheAppApiImpl}
-                implementationNote="HTTP requests are made from the iframe to the app server, which then makes requests to Space with application access token. See [onBehalfOfTheAppApiImpl.ts]."
+                implementationNote="HTTP requests are made from the iframe to the app server, which then makes requests to Space with application access token."
+                sourceCodeHRef="https://github.com/JetBrains/space-app-tutorials/blob/main/kotlin/app-homepage-react/client/src/app/service/onBehalfOfTheAppApiImpl.ts"
+                sourceCodeLinkText="onBehalfOfTheAppApiImpl.ts"
             />
         </>
     )

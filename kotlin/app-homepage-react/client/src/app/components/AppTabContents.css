@@ -1,3 +1,8 @@
 .implementation-note {
     color: var(--secondary-text-color);
 }
+
+.source-code-link {
+    color: var(--link-color);
+    cursor: pointer;
+}

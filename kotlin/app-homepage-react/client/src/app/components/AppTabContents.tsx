@@ -1,17 +1,18 @@
 import "./AppTabContents.css";
 import {SpaceChannelSelection} from "./SpaceChannelSelection";
 import {useState} from "@hookstate/core";
-import WarningBox from "./WarningBox";
-import fetchSpaceUserToken, {UserTokenData} from "../service/spaceAuth";
+import {UserTokenData} from "../service/spaceAuth";
 import {SendMessageSection} from "./SendMessageSection";
-import Loader from "./Loader";
 import {ChatChannel, copyChannel} from "../service/chatChannel";
-import {TabApiImplementation, TabProps} from "./AppTabs";
+import {TabApiImplementation} from "./AppTabs";
+import {openInNewTab} from "../service/utils";
 
 export interface AppTabContentsProps {
     userTokenData?: UserTokenData;
     apiImpl: TabApiImplementation;
     implementationNote: string;
+    sourceCodeHRef: string;
+    sourceCodeLinkText: string;
 }
 
 interface AppTabContentsState {
@@ -38,7 +39,13 @@ export function AppTabContents(props: AppTabContentsProps) {
                 userTokenData={props.userTokenData}
                 apiImpl={props.apiImpl}
             />
-            <span className="implementation-note">{props.implementationNote}</span>
+            <span className="implementation-note">
+                {props.implementationNote}
+                {" See "}
+                <span className="source-code-link" onClick={() => openInNewTab(props.sourceCodeHRef)}>
+                    {props.sourceCodeLinkText}
+                </span>
+            </span>
         </>
     )
 }

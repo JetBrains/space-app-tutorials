@@ -38,3 +38,11 @@ async function httpRequest(method: string, token: string, path: string, body?: o
 
     return await fetch(path, requestInit)
 }
+
+export function openInNewTab(href: string) {
+    Object.assign(document.createElement('a'), {
+        target: '_blank',
+        rel: 'noopener noreferrer',
+        href: href,
+    }).click();
+}
