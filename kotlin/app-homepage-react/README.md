@@ -1,10 +1,11 @@
 # Application Homepage demo
 
-This sample application demonstrates how you can create a homepage for your
-application in Space UI. Application server uses Ktor to serve static content and process API requests.
-Client code is written using React and can be found in the `./client` directory.
+The application is a demo of a homepage for your application in Space UI. Application server uses Ktor to serve 
+static content and process API requests. Client code for the homepage is written using React and can be found in 
+the `./client` directory.
 
-Click [here](https://jetbrains.com/space/app/install-app?name=Homepage%20demo&endpoint=https%3A%2F%2Fspace-app-homepage-example.eu-west-1.eks.intellij.net%2Fapi%2Fspace&code-flow-enabled=true&code-flow-redirect-uris=https%3A%2F%2Fnowhere.domain) to install the app into your Space organization.
+Click [here](https://jetbrains.com/space/app/install-app?name=Homepage%20demo&endpoint=https%3A%2F%2Fspace-app-homepage-example.eu-west-1.eks.intellij.net%2Fapi%2Fspace&code-flow-enabled=true&code-flow-redirect-uris=https%3A%2F%2Fnowhere.domain) 
+to install the app and see it in action.
 
 ## Implementing Application Homepage 
 
