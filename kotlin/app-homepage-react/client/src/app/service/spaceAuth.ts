@@ -4,6 +4,9 @@ export interface UserTokenData {
 }
 
 export default async function fetchSpaceUserToken(askForConsent: boolean = false, permissionScope: string = ""): Promise<UserTokenData | undefined> {
+    // read more about getting user token in Space documentation:
+    // https://www.jetbrains.com/help/space/application-homepage.html#getusertokenrequest-get-space-user-token
+
     const response = await new Promise((resolve) => {
         const channel = new MessageChannel();
         channel.port1.onmessage = e => resolve(e.data);

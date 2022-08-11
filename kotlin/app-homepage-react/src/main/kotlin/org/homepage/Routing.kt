@@ -27,8 +27,19 @@ fun Application.configureRouting() {
     }
 
     routing {
-        get("/health") {
-            call.respond(HttpStatusCode.OK)
+        post("/api/space") {
+            Space.processPayload(ktorRequestAdapter(call), spaceHttpClient, AppInstanceStorage) { payload ->
+                when (payload) {
+                    is InitPayload -> {
+                        setUiExtensions()
+                        SpaceHttpResponse.RespondWithOk
+                    }
+                    else -> {
+                        call.respond(HttpStatusCode.OK)
+                        SpaceHttpResponse.RespondWithOk
+                    }
+                }
+            }
         }
 
         static("/space-iframe") {
@@ -39,6 +50,10 @@ fun Application.configureRouting() {
         static("/") {
             staticBasePackage = "space-iframe"
             resources(".")
+        }
+
+        get("/health") {
+            call.respond(HttpStatusCode.OK)
         }
 
         get<Routes.GetChannels> { params ->
@@ -59,31 +74,18 @@ fun Application.configureRouting() {
                 call.respond(HttpStatusCode.OK, AppHasPermissionsService(spaceTokenInfo).appHasPermissions())
             }
         }
+    }
+}
 
-        post<Routes.RequestFromSpace> {
-            val ktorRequestAdapter = object : RequestAdapter {
-                override suspend fun receiveText() =
-                    call.receiveText()
+private fun ktorRequestAdapter(call: ApplicationCall): RequestAdapter {
+    return object : RequestAdapter {
+        override suspend fun receiveText() =
+            call.receiveText()
 
-                override fun getHeader(headerName: String) =
-                    call.request.header(headerName)
+        override fun getHeader(headerName: String) =
+            call.request.header(headerName)
 
-                override suspend fun respond(httpStatusCode: Int, body: String) =
-                    call.respond(HttpStatusCode.fromValue(httpStatusCode), body)
-            }
-
-            Space.processPayload(ktorRequestAdapter, spaceHttpClient, AppInstanceStorage) { payload ->
-                when (payload) {
-                    is InitPayload -> {
-                        setUiExtensions()
-                        SpaceHttpResponse.RespondWithOk
-                    }
-                    else -> {
-                        call.respond(HttpStatusCode.OK)
-                        SpaceHttpResponse.RespondWithOk
-                    }
-                }
-            }
-        }
+        override suspend fun respond(httpStatusCode: Int, body: String) =
+            call.respond(HttpStatusCode.fromValue(httpStatusCode), body)
     }
 }

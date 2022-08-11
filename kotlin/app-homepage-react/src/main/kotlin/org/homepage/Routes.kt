@@ -9,7 +9,4 @@ object Routes {
 
     @Location("/homepage/app-has-permissions")
     object AppHasPermissions
-
-    @Location("/api/space")
-    object RequestFromSpace
 }
