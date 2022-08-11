@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceTranslate", "SpaceTranslate\SpaceTranslate.csproj", "{ECFFDAE2-DE99-4C09-B255-5E4F23B2C828}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_", "_", "{83B4668D-F728-4096-A366-32AC2D850EBF}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{1E0AD841-71B6-4623-A681-AAC8E5365404}"
+	ProjectSection(SolutionItems) = preProject
+		.config\dotnet-tools.json = .config\dotnet-tools.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ECFFDAE2-DE99-4C09-B255-5E4F23B2C828}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECFFDAE2-DE99-4C09-B255-5E4F23B2C828}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECFFDAE2-DE99-4C09-B255-5E4F23B2C828}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECFFDAE2-DE99-4C09-B255-5E4F23B2C828}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1E0AD841-71B6-4623-A681-AAC8E5365404} = {83B4668D-F728-4096-A366-32AC2D850EBF}
+	EndGlobalSection
+EndGlobal

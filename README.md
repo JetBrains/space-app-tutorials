@@ -17,6 +17,7 @@ and `dotnet` directories.
 ## .NET
 
 * [Tutorial — How to create a chatbot (.NET)](https://jetbrains.com/help/space/how-to-create-a-chatbot-net.html). Source code for the final application is in [dotnet/create-a-chatbot](https://github.com/JetBrains/space-app-tutorials/tree/main/dotnet/create-a-chatbot).
+* [Example — Context menu extension](https://github.com/JetBrains/space-app-tutorials/tree/main/dotnet/space-translate). Source code for an application that uses [DeepL](https://www.deepl.com) to provide translations of chat messages in Space.
 
 ## Javascript
 
