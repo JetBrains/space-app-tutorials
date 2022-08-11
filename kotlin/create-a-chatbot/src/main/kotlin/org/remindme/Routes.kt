@@ -36,16 +36,11 @@ fun Application.configureRouting() {
                 return@post
             }
 
-            // read payload and get context (user id)
-            val payload = readPayload(body)
-
-            // JSON serializer
-            val jackson = ObjectMapper()
-            when (payload) {
+            when (val payload = readPayload(body)) {
                 is ListCommandsPayload -> {
                     // Space requests the list of supported commands
                     call.respondText(
-                        jackson.writeValueAsString(getSupportedCommands()),
+                        ObjectMapper().writeValueAsString(getSupportedCommands()),
                         ContentType.Application.Json
                     )
                 }
