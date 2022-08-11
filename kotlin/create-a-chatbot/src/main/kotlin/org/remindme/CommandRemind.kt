@@ -5,20 +5,20 @@ import space.jetbrains.api.runtime.helpers.commandArguments
 import space.jetbrains.api.runtime.helpers.message
 import space.jetbrains.api.runtime.types.*
 
-suspend fun runRemindCommand(context: CallContext, payload: MessagePayload) {
+suspend fun runRemindCommand(payload: MessagePayload) {
     val remindMeArgs = getArgs(payload) ?: run {
-        sendMessage(context, helpMessage())
+        sendMessage(payload.userId, helpMessage())
         return
     }
 
-    remindAfterDelay(context, remindMeArgs)
+    remindAfterDelay(payload.userId, remindMeArgs)
 }
 
-private suspend fun remindAfterDelay(context: CallContext, remindMeArgs: RemindMeArgs) {
-    sendMessage(context, acceptRemindMessage(remindMeArgs))
+private suspend fun remindAfterDelay(userId: String, remindMeArgs: RemindMeArgs) {
+    sendMessage(userId, acceptRemindMessage(remindMeArgs))
 
     delay(remindMeArgs.delayMs)
-    sendMessage(context, remindMessage(remindMeArgs))
+    sendMessage(userId, remindMessage(remindMeArgs))
 }
 
 private fun acceptRemindMessage(remindMeArgs: RemindMeArgs): ChatMessage {

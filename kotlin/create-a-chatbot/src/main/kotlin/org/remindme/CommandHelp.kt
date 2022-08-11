@@ -1,13 +1,10 @@
 package org.remindme
 
 import space.jetbrains.api.runtime.helpers.message
-import space.jetbrains.api.runtime.types.ApiIcon
-import space.jetbrains.api.runtime.types.ChatMessage
-import space.jetbrains.api.runtime.types.MessageOutline
-import space.jetbrains.api.runtime.types.MessageStyle
+import space.jetbrains.api.runtime.types.*
 
-suspend fun runHelpCommand(context: CallContext) {
-    sendMessage(context, helpMessage())
+suspend fun runHelpCommand(payload: MessagePayload) {
+    sendMessage(payload.userId, helpMessage())
 }
 
 fun helpMessage(): ChatMessage {

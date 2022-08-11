@@ -7,7 +7,6 @@ import space.jetbrains.api.runtime.ktorClientForSpace
 import space.jetbrains.api.runtime.resources.chats
 import space.jetbrains.api.runtime.types.ChannelIdentifier
 import space.jetbrains.api.runtime.types.ChatMessage
-import space.jetbrains.api.runtime.types.MessageRecipient
 import space.jetbrains.api.runtime.types.ProfileIdentifier
 
 val spaceAppInstance = SpaceAppInstance(
@@ -18,12 +17,12 @@ val spaceAppInstance = SpaceAppInstance(
      * Client Secret is a sensitive value. Normally you would pass it to the application
      * as an environment variable.
      */
-    clientId = "<client id>",
-    clientSecret = "<client secret>",
+    clientId = config.getString("space.clientId"),
+    clientSecret = config.getString("space.clientSecret"),
     /**
      * URL of your Space instance
      */
-    spaceServerUrl = "https://my-company.jetbrains.space/"
+    spaceServerUrl = config.getString("space.serverUrl"),
 )
 
 val spaceHttpClient = ktorClientForSpace()
@@ -40,9 +39,9 @@ val spaceClient =
 /**
  * Call API method in Space to send a message to the user.
  */
-suspend fun sendMessage(context: CallContext, message: ChatMessage) {
+suspend fun sendMessage(userId: String, message: ChatMessage) {
     spaceClient.chats.messages.sendMessage(
-        channel = ChannelIdentifier.Profile(ProfileIdentifier.Id(context.userId)),
+        channel = ChannelIdentifier.Profile(ProfileIdentifier.Id(userId)),
         content = message
     )
 }

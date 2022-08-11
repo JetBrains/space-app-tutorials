@@ -11,7 +11,7 @@ import space.jetbrains.api.runtime.types.MessagePayload
 class ApplicationCommand(
     val name: String,
     val info: String,
-    val run: suspend (context: CallContext, payload: MessagePayload) -> Unit
+    val run: suspend (payload: MessagePayload) -> Unit
 ) {
     /**
      * [CommandDetail] is returned to Space with an information about the command. List of commands
@@ -24,12 +24,12 @@ val supportedCommands = listOf(
     ApplicationCommand(
         "help",
         "Show this help",
-    ) { context, _ -> runHelpCommand(context) },
+    ) { payload -> runHelpCommand(payload) },
 
     ApplicationCommand(
         "remind",
         "Remind me about something in N seconds, e.g., to remind about \"the thing\" in 10 seconds, send 'remind 10 the thing' ",
-    ) { context, payload -> runRemindCommand(context, payload) }
+    ) { payload -> runRemindCommand(payload) }
 )
 
 /**

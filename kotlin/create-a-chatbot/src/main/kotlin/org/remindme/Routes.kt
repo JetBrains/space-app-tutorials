@@ -6,18 +6,14 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.launch
-import space.jetbrains.api.ExperimentalSpaceSdkApi
 import space.jetbrains.api.runtime.helpers.command
 import space.jetbrains.api.runtime.helpers.readPayload
 import space.jetbrains.api.runtime.helpers.verifyWithPublicKey
 import space.jetbrains.api.runtime.types.ListCommandsPayload
 import space.jetbrains.api.runtime.types.MessagePayload
 
-@OptIn(ExperimentalSpaceSdkApi::class)
 fun Routing.api() {
-
     get("/") {
         call.respondText("Hello from bot!")
     }
@@ -41,7 +37,6 @@ fun Routing.api() {
 
         // read payload and get context (user id)
         val payload = readPayload(body)
-        val context = getCallContext(payload)
 
         // JSON serializer
         val jackson = ObjectMapper()
@@ -57,9 +52,9 @@ fun Routing.api() {
                 // user sent a message to the application
                 val command = supportedCommands.find { it.name == payload.command() }
                 if (command == null) {
-                    runHelpCommand(context)
+                    runHelpCommand(payload)
                 } else {
-                    launch { command.run(context, payload) }
+                    launch { command.run(payload) }
                 }
                 call.respond(HttpStatusCode.OK, "")
             }
