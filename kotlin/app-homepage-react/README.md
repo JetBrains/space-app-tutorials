@@ -30,7 +30,7 @@ For Space to be able to send events to your application, the application needs t
 to do this is to use `ngrok`. After installing `ngrok` locally, run:
 
 ```shell
-ngrok http 8081
+ngrok http 8080
 ```
 
 See more details about setting up `ngrok`
