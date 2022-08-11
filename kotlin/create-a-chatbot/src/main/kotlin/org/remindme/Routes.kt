@@ -46,7 +46,8 @@ fun Application.configureRouting() {
                 }
                 is MessagePayload -> {
                     // user sent a message to the application
-                    val command = supportedCommands.find { it.name == payload.command() }
+                    val commandName = payload.command()
+                    val command = supportedCommands.find { it.name == commandName }
                     if (command == null) {
                         runHelpCommand(payload)
                     } else {
