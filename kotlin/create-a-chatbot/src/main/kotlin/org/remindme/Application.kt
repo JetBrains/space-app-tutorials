@@ -4,7 +4,6 @@ import com.typesafe.config.Config
 import com.typesafe.config.ConfigFactory
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
-import org.remindme.plugins.configureRouting
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
