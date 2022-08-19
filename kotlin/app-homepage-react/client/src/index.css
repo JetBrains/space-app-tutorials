@@ -11,4 +11,7 @@ body {
 
   background-color: var(--background-color);
   color: var(--text-color);
+
+  padding-top: 20px;
+  padding-left: 20px;
 }
