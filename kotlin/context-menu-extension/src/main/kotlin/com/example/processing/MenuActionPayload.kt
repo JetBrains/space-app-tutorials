@@ -5,6 +5,7 @@ import space.jetbrains.api.runtime.PermissionDeniedException
 import space.jetbrains.api.runtime.RefreshTokenRevokedException
 import space.jetbrains.api.runtime.SpaceClient
 import space.jetbrains.api.runtime.helpers.ProcessingScope
+import space.jetbrains.api.runtime.resources.checklists
 import space.jetbrains.api.runtime.resources.projects
 import space.jetbrains.api.runtime.types.*
 
@@ -40,7 +41,7 @@ private val permissionsRequest = AppUserActionExecutionResult.AuthCodeFlowRequir
      */
     listOf(
         AuthCodeFlowPermissionsRequest(
-            "global:Project.Issues.Create global:Project.Issues.View global:Project.Issues.Edit",
+            "global:Project.Issues.Create global:Project.Issues.View global:Project.Issues.Edit global:Project.View",
             "create task sub-items"
         )
     )
@@ -48,10 +49,11 @@ private val permissionsRequest = AppUserActionExecutionResult.AuthCodeFlowRequir
 
 private suspend fun doCreateSubItems(client: SpaceClient, payload: MenuActionPayload) {
     val context = payload.context as IssueMenuActionContext
-    val issue = client.projects.planning.issues.getIssue(context.projectIdentifier, context.issueIdentifier)
-
-    val status = client.projects.planning.issues.statuses.getAllIssueStatuses(context.projectIdentifier)
-        .map { it.id }.first()
+    val issue = client.projects.planning.issues.getIssue(context.projectIdentifier, context.issueIdentifier) {
+        subItemsList {
+            id()
+        }
+    }
 
     listOf(
         "Pricing plan",
@@ -61,11 +63,31 @@ private suspend fun doCreateSubItems(client: SpaceClient, payload: MenuActionPay
         "Metrics",
         "UI tests",
     ).forEach {
-        client.projects.planning.issues.createIssue(
-            context.projectIdentifier,
-            title = "${issue.title}: $it",
-            status = status,
-            parents = listOf(context.issueIdentifier)
+        client.checklists.items.createPlanItem(
+            checklist = ChecklistIdentifier.Id(issue.subItemsList.id),
+            parentItem = null,
+            itemText = it,
         )
     }
+
+    /**
+     * Alternatively you can create sub-issues, not sub-items.
+     */
+//    val status = client.projects.planning.issues.statuses.getAllIssueStatuses(context.projectIdentifier)
+//        .map { it.id }.first()
+//
+//    listOf(
+//        "Pricing plan",
+//        "Proofreading",
+//        "Marketing Materials",
+//        "Documentation",
+//        "Metrics",
+//        "UI tests",
+//    ).forEach {
+//        client.projects.planning.issues.createIssue(
+//            context.projectIdentifier,
+//            title = "${issue.title}: $it",
+//            status = status,
+//            parents = listOf(context.issueIdentifier)
+//    }
 }
