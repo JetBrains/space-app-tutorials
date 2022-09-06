@@ -6,38 +6,38 @@ import space.jetbrains.api.runtime.helpers.commandArguments
 import space.jetbrains.api.runtime.helpers.message
 import space.jetbrains.api.runtime.types.*
 
-suspend fun runRemindCommand(context: CallContext, payload: MessagePayload) {
+suspend fun runRemindCommand(payload: MessagePayload) {
     val remindMeArgs = getArgs(payload)
 
     when {
         remindMeArgs == null -> {
-            sendMessage(context, helpMessage())
+            sendMessage(payload.userId, helpMessage())
         }
         remindMeArgs.delayMs == null && remindMeArgs.reminderText.isNotEmpty() -> {
-            sendMessage(context, suggestRemindMessage(remindMeArgs.reminderText))
+            sendMessage(payload.userId, suggestRemindMessage(remindMeArgs.reminderText))
         }
         remindMeArgs.delayMs == null -> {
-            sendMessage(context, helpMessage())
+            sendMessage(payload.userId, helpMessage())
         }
         else -> {
-            remindAfterDelay(context, remindMeArgs.delayMs, remindMeArgs.reminderText)
+            remindAfterDelay(payload.userId, remindMeArgs.delayMs, remindMeArgs.reminderText)
         }
     }
 }
 
-suspend fun runRemindCommand(context: CallContext, payload: MessageActionPayload) {
+suspend fun runRemindCommand(payload: MessageActionPayload) {
     val remindMeArgs = getArgs(payload) ?: return
     val delayMs = remindMeArgs.delayMs ?: return
     val reminderText = remindMeArgs.reminderText
 
-    remindAfterDelay(context, delayMs, reminderText)
+    remindAfterDelay(payload.userId, delayMs, reminderText)
 }
 
-private suspend fun remindAfterDelay(context: CallContext, delayMs: Long, reminderText: String) {
-    sendMessage(context, acceptRemindMessage(delayMs, reminderText))
+private suspend fun remindAfterDelay(userId: String, delayMs: Long, reminderText: String) {
+    sendMessage(userId, acceptRemindMessage(delayMs, reminderText))
 
     delay(delayMs)
-    sendMessage(context, remindMessage(delayMs, reminderText))
+    sendMessage(userId, remindMessage(delayMs, reminderText))
 }
 
 private fun acceptRemindMessage(delayMs: Long, reminderText: String): ChatMessage {
