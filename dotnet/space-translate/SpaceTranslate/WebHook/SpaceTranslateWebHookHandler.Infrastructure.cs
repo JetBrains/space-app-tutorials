@@ -15,10 +15,10 @@ public partial class SpaceTranslateWebHookHandler
             return new ApplicationExecutionResult("No state parameter is provided in the request payload.", 400);
         }
 
-        var organization = await _db.Organizations.FirstOrDefaultAsync(it => it.ServerUrl == payload.ServerUrl);
+        var organization = await _db.Organizations.FirstOrDefaultAsync(it => it.ClientId == payload.ClientId);
         if (organization != null)
         {
-            _logger.LogWarning("The organization server URL is already registered. ServerUrl={ServerUrl}; Existing ClientId={ClientId}; New ClientId={NewClientId}", payload.ServerUrl, organization.ClientId, payload.ClientId);
+            _logger.LogWarning("The organization is already registered. ClientId={ClientId}; ServerUrl={ServerUrl}", payload.ClientId, payload.ServerUrl);
             return new ApplicationExecutionResult("The organization server URL is already registered.", 400);
         }
 
