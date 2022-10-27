@@ -1,4 +1,4 @@
-export const APPLICATION_URL = "http://localhost:8080";
+export const APPLICATION_URL = "<public url for your app, for example, https://123s-45-14-97-18.eu.ngrok.io>";
 export const SPACE_ORG_URL = "https://mycompany.jetbrains.space";
-export const CLIENT_ID = "c9f8105c-6fe9-45f2-8555-fe0d815e67a1";
-export const CLIENT_SECRET = "4884b46cbde3987faaab86bc5481fd92b1859416a99c0f62120c2e194c68c764";
+export const CLIENT_ID = "<client id of your application>";
+export const CLIENT_SECRET = "<client secret of your application>";
