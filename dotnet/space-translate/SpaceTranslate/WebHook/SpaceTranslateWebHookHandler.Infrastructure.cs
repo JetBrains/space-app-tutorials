@@ -71,11 +71,11 @@ public partial class SpaceTranslateWebHookHandler
         await applicationClient.Authorizations.AuthorizedRights.RequestRightsAsync(
             application: ApplicationIdentifier.Me,
             contextIdentifier: PermissionContextIdentifier.Global, 
-            rightCodes: new List<string>
+            rightCodes: new List<PermissionIdentifier>
             {
-                "Profile.View",
-                "Channel.ViewMessages",
-                "Channel.ViewChannel"
+                PermissionIdentifier.ViewMemberProfiles,
+                PermissionIdentifier.ViewMessages,
+                PermissionIdentifier.ViewChannelInfo
             });
         
         await applicationClient.SetUiExtensionsAsync(

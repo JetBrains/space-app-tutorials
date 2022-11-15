@@ -1,3 +1,4 @@
+using JetBrains.Space.Client;
 using JetBrains.Space.Common;
 using SpaceTranslate.Database;
 
@@ -19,7 +20,10 @@ public static class ConnectionExtensions
             serverUrl: new Uri(user.Organization.ServerUrl),
             clientId: user.Organization.ClientId,
             clientSecret: user.Organization.ClientSecret,
-            scopes: new[] { user.Scope ?? "global:Channel.ViewMessages" },
+            scopes: !string.IsNullOrEmpty(user.Scope)
+                ? new PermissionScope(user.Scope)
+                : PermissionScopeBuilder.FromElement(
+                    new(PermissionContextIdentifier.Global, PermissionIdentifier.ViewMessages)),
             authenticationTokens: AuthenticationTokens.FromRefreshToken(user.RefreshToken));
     }
 }
