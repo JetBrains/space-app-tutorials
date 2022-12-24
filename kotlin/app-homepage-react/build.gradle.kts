@@ -9,17 +9,18 @@ val hikariVersion: String by project
 val postgresqlDriverVersion: String by project
 val nimbusVersion: String by project
 val kotlinxSerializationVersion: String by project
+val jacksonVersion: String by project
 
 plugins {
     application
-    kotlin("jvm") version "1.7.0"
-    kotlin("plugin.serialization") version "1.7.0"
+    kotlin("jvm") version "1.7.21"
+    kotlin("plugin.serialization") version "1.7.21"
     id("docker-compose")
-    id("com.github.node-gradle.node") version "3.4.0"
+    id("com.github.node-gradle.node") version "3.5.0"
 }
 
 node {
-    version.set("16.15.1")
+    version.set("18.12.1")
     download.set(true)
 }
 
@@ -42,6 +43,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
 
     implementation("org.jetbrains:space-sdk-jvm:$spaceSdkVersion")
+    // Include jackson databinding to override transitive vulnerable version 2.13.1
+    // TODO Remove once Space SDK updates dependency
+    implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
 
     implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
@@ -72,9 +76,9 @@ sourceSets {
 }
 
 dockerCompose {
-    projectName = "space-events"
-    removeContainers = false
-    removeVolumes = false
+    setProjectName("space-events")
+    removeContainers.set(false)
+    removeVolumes.set(false)
 }
 
 tasks.register("clientNpmInstall", NpmTask::class) {

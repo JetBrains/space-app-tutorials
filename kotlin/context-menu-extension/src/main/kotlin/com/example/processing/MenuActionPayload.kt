@@ -1,9 +1,7 @@
 package com.example.processing
 
 import com.example.db.findRefreshTokenData
-import space.jetbrains.api.runtime.PermissionDeniedException
-import space.jetbrains.api.runtime.RefreshTokenRevokedException
-import space.jetbrains.api.runtime.SpaceClient
+import space.jetbrains.api.runtime.*
 import space.jetbrains.api.runtime.helpers.ProcessingScope
 import space.jetbrains.api.runtime.resources.checklists
 import space.jetbrains.api.runtime.resources.projects
@@ -41,8 +39,25 @@ private val permissionsRequest = AppUserActionExecutionResult.AuthCodeFlowRequir
      */
     listOf(
         AuthCodeFlowPermissionsRequest(
-            "global:Project.Issues.Create global:Project.Issues.View global:Project.Issues.Edit global:Project.View",
-            "create task sub-items"
+            scope = PermissionScope.build(
+                PermissionScopeElement(
+                    context = GlobalPermissionContextIdentifier,
+                    permission = PermissionIdentifier.CreateIssues
+                ),
+                PermissionScopeElement(
+                    context = GlobalPermissionContextIdentifier,
+                    permission = PermissionIdentifier.ViewIssues
+                ),
+                PermissionScopeElement(
+                    context = GlobalPermissionContextIdentifier,
+                    permission = PermissionIdentifier.UpdateIssues
+                ),
+                PermissionScopeElement(
+                    context = GlobalPermissionContextIdentifier,
+                    permission = PermissionIdentifier.ViewProjectDetails
+                )
+            ),
+            purpose = "create task sub-items"
         )
     )
 )
