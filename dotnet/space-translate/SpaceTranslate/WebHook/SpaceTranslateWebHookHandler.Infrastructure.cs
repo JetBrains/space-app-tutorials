@@ -121,4 +121,24 @@ public partial class SpaceTranslateWebHookHandler
             
         return await base.HandleChangeServerUrlAsync(payload);
     }
+
+    public override async Task<ApplicationExecutionResult> HandleUninstalledAsync(ApplicationUninstalledPayload payload)
+    {
+        // Uninstall application
+        var organization = await _db.Organizations
+            .Include(it => it.Users)
+            .FirstOrDefaultAsync(it => it.ClientId == payload.ClientId);
+        if (organization == null)
+        {
+            _logger.LogWarning("The organization is already uninstalled. ClientId={ClientId}; ServerUrl={ServerUrl}", payload.ClientId, payload.ServerUrl);
+            return new ApplicationExecutionResult("The organization is already uninstalled.");
+        }
+
+        // Delete related entities
+        _db.RemoveRange(organization.Users);
+        _db.RemoveRange(organization);
+        await _db.SaveChangesAsync();
+
+        return new ApplicationExecutionResult("The organization has been uninstalled.");
+    }
 }
