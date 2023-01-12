@@ -1,6 +1,6 @@
 plugins {
     id 'application'
-    id 'org.jetbrains.kotlin.jvm' version '1.7.10'
+    id 'org.jetbrains.kotlin.jvm' version '1.7.21'
 }
 
 group "com.linkpreviews"
@@ -13,12 +13,12 @@ repositories {
 }
 
 dependencies {
-    implementation "io.ktor:ktor-server-core:$ktor_version"
-    implementation "io.ktor:ktor-server-netty:$ktor_version"
-    implementation "ch.qos.logback:logback-classic:$logback_version"
-    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0"
-    implementation "org.jetbrains:space-sdk-jvm:106390-beta"
-    implementation "io.ktor:ktor-client-core:$ktor_version"
-    implementation "io.ktor:ktor-client-cio:$ktor_version"
-    implementation "com.slack.api:slack-api-client:1.18.0"
+    implementation "io.ktor:ktor-server-core:$ktorVersion"
+    implementation "io.ktor:ktor-server-jetty:$ktorVersion"
+    implementation "ch.qos.logback:logback-classic:$logbackVersion"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion"
+    implementation "org.jetbrains:space-sdk-jvm:$spaceSdkVersion"
+    implementation "io.ktor:ktor-client-core:$ktorVersion"
+    implementation "io.ktor:ktor-client-cio:$ktorVersion"
+    implementation "com.slack.api:slack-api-client:$slackVersion"
 }

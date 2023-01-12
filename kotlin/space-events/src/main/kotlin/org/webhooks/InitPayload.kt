@@ -5,9 +5,7 @@ package org.webhooks
 import space.jetbrains.api.ExperimentalSpaceSdkApi
 import space.jetbrains.api.runtime.helpers.ProcessingScope
 import space.jetbrains.api.runtime.resources.applications
-import space.jetbrains.api.runtime.types.ApplicationIdentifier
-import space.jetbrains.api.runtime.types.CustomGenericSubscriptionIn
-import space.jetbrains.api.runtime.types.GlobalPermissionContextIdentifier
+import space.jetbrains.api.runtime.types.*
 
 @ExperimentalSpaceSdkApi
 suspend fun ProcessingScope.setupWebhooks() {
@@ -48,6 +46,6 @@ suspend fun ProcessingScope.requestPermissions() {
     spaceClient.applications.authorizations.authorizedRights.requestRights(
         application = ApplicationIdentifier.Me,
         contextIdentifier = GlobalPermissionContextIdentifier,
-        listOf("Profile.Memberships.View", "Team.View")
+        listOf(PermissionIdentifier.ViewMemberships, PermissionIdentifier.ViewTeams)
     )
 }

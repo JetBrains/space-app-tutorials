@@ -3,7 +3,7 @@ package org.remindme
 import com.typesafe.config.Config
 import com.typesafe.config.ConfigFactory
 import io.ktor.server.engine.*
-import io.ktor.server.netty.*
+import io.ktor.server.jetty.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -13,7 +13,7 @@ fun main() {
         return
     }
 
-    embeddedServer(Netty, port = 8080) {
+    embeddedServer(Jetty, port = 8080) {
         configureRouting()
     }.start(wait = true)
 }

@@ -1,6 +1,8 @@
 package com.example
 
 import com.example.db.AppInstallation
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.replace
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -30,5 +32,9 @@ object AppInstanceStorage : SpaceAppInstanceStorage {
                 it[serverUrl] = appInstance.spaceServer.serverUrl
             }
         }
+    }
+
+    override suspend fun removeAppInstance(clientId: String): Unit = transaction {
+        AppInstallation.deleteWhere { AppInstallation.clientId.eq(clientId) }
     }
 }

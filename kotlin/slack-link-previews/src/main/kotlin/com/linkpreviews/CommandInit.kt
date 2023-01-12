@@ -8,11 +8,11 @@ suspend fun commandInit(spaceUserId: String) {
     spaceClient.applications.authorizations.authorizedRights.requestRights(
         ApplicationIdentifier.Me,
         GlobalPermissionContextIdentifier,
-        listOf("Unfurl.App.ProvideAttachment")
+        listOf(PermissionIdentifier.ProvideExternalUnfurlsAsAttachments)
     )
     spaceClient.applications.unfurls.domains.updateUnfurledDomains(listOf(SlackWorkspace.domain))
     spaceClient.chats.messages.sendMessage(
         recipient = MessageRecipient.Member(ProfileIdentifier.Id(spaceUserId)),
-        ChatMessage.Text("ok")
+        content = ChatMessage.Text("ok")
     )
 }

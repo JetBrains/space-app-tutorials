@@ -1,14 +1,15 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val space_sdk_version: String by project
-val ktor_version: String by project
-val logback_version: String by project
-val exposed_version: String by project
-val hikari_version: String by project
-val postgresql_driver_version: String by project
+val spaceSdkVersion: String by project
+val ktorVersion: String by project
+val logbackVersion: String by project
+val exposedVersion: String by project
+val hikariVersion: String by project
+val postgresqlDriverVersion: String by project
+val jacksonVersion: String by project
 
 plugins {
-    kotlin("jvm") version "1.7.10"
+    kotlin("jvm") version "1.7.21"
     id("docker-compose")
     application
 }
@@ -22,30 +23,35 @@ repositories {
 }
 
 dependencies {
-    implementation("io.ktor:ktor-server-core:$ktor_version")
-    implementation("io.ktor:ktor-server-jetty-jvm:$ktor_version")
+    implementation("io.ktor:ktor-server-core:$ktorVersion")
+    implementation("io.ktor:ktor-server-jetty-jvm:$ktorVersion")
 
-    implementation("ch.qos.logback:logback-classic:$logback_version")
+    implementation("ch.qos.logback:logback-classic:$logbackVersion")
 
-    implementation("io.ktor:ktor-client-core:$ktor_version")
-    implementation("io.ktor:ktor-client-cio:$ktor_version")
+    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-cio:$ktorVersion")
 
-    implementation("org.jetbrains:space-sdk-jvm:$space_sdk_version")
+    implementation("org.jetbrains:space-sdk-jvm:$spaceSdkVersion")
+    // Include jackson databinding to override transitive vulnerable version 2.13.1
+    // TODO Remove once Space SDK updates dependency
+    implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
 
-    implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
-    implementation("org.jetbrains.exposed:exposed-dao:$exposed_version")
-    implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
-    implementation("org.jetbrains.exposed:exposed-java-time:$exposed_version")
-    implementation("com.zaxxer:HikariCP:$hikari_version")
-    implementation("org.postgresql:postgresql:$postgresql_driver_version")
+    implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
+    implementation("com.zaxxer:HikariCP:$hikariVersion")
+    implementation("org.postgresql:postgresql:$postgresqlDriverVersion")
 
     testImplementation(kotlin("test"))
 }
 
 dockerCompose {
-    projectName = "space-events"
-    removeContainers = false
-    removeVolumes = false
+    // Docker Compose configuration was broken and not fixed.
+    // See https://github.com/avast/gradle-docker-compose-plugin/issues/353
+    setProjectName("space-events")
+    removeContainers.set(false)
+    removeVolumes.set(false)
 }
 
 tasks.test {

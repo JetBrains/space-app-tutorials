@@ -5,11 +5,12 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder
 import org.jetbrains.exposed.sql.replace
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
+import space.jetbrains.api.runtime.PermissionScope
 import space.jetbrains.api.runtime.types.RefreshTokenPayload
 
 data class RefreshTokenAndScope(
     val refreshToken: String,
-    val scope: String
+    val scope: PermissionScope
 )
 
 fun findRefreshTokenData(clientIdParam: String, userIdParam: String) = transaction {
@@ -17,7 +18,7 @@ fun findRefreshTokenData(clientIdParam: String, userIdParam: String) = transacti
         slice(refreshToken, scope).select {
             clientIdAndUserMatch(clientIdParam, userIdParam)
         }
-            .map { RefreshTokenAndScope(it[refreshToken], it[scope]) }
+            .map { RefreshTokenAndScope(it[refreshToken], PermissionScope.fromString(it[scope])) }
             .firstOrNull()
     }
 }
@@ -38,7 +39,7 @@ fun saveRefreshTokenData(payload: RefreshTokenPayload) = transaction {
             it[clientId] = payload.clientId
             it[userId] = payload.userId
             it[refreshToken] = payload.refreshToken
-            it[scope] = payload.scope
+            it[scope] = payload.scope.toString()
         }
     }
 }
