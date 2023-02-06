@@ -37,7 +37,7 @@ export async function getAccessTokenFromSpace(authCode, state) {
 
 export function getNonExpiredAccessToken() {
     let accessToken = localStorage.getItem("accessToken");
-    if (accessToken === null) {
+    if (accessToken === null || accessToken === undefined) {
         return null;
     }
 
