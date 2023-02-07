@@ -20,8 +20,12 @@ window.onload = async () => {
             return;
         } else {
             accessToken = await getAccessTokenFromSpace(authCode, state);
-            localStorage.setItem("accessToken", accessToken);
-            document.location.replace('/');
+            if (accessToken !== null && accessToken !== undefined) {
+                localStorage.setItem("accessToken", accessToken);
+                document.location.replace('/');
+            } else {
+                console.error("Could not retrieve access token from Space");
+            }
         }
     }
 
