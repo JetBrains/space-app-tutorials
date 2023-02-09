@@ -1,6 +1,7 @@
 package org.homepage
 
 import org.homepage.db.AppInstallation
+import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.replace
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -28,6 +29,14 @@ object AppInstanceStorage : SpaceAppInstanceStorage {
                 it[clientId] = appInstance.clientId
                 it[clientSecret] = appInstance.clientSecret
                 it[serverUrl] = appInstance.spaceServer.serverUrl
+            }
+        }
+    }
+
+    override suspend fun removeAppInstance(clientId: String) {
+        with(AppInstallation) {
+            deleteWhere {
+                AppInstallation.clientId eq clientId
             }
         }
     }

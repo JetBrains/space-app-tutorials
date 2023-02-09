@@ -1,15 +1,15 @@
 package org.homepage.services
 
 import kotlinx.serialization.Serializable
-import org.homepage.SpaceTokenInfo
 import org.homepage.appSpaceClient
 import space.jetbrains.api.runtime.BatchInfo
+import space.jetbrains.api.runtime.helpers.ParsedSpaceJWT
 import space.jetbrains.api.runtime.resources.chats
 
-class GetChannelsService(private val spaceTokenInfo: SpaceTokenInfo) {
+class GetChannelsService(private val spaceJwt: ParsedSpaceJWT) {
     suspend fun getChannels(query: String): GetChannelsResponse {
-        val serverUrl = spaceTokenInfo.spaceAppInstance.spaceServer.serverUrl
-        val channels = spaceTokenInfo.appSpaceClient().chats.channels.listAllChannels(
+        val serverUrl = spaceJwt.spaceAppInstance.spaceServer.serverUrl
+        val channels = spaceJwt.appSpaceClient().chats.channels.listAllChannels(
             query,
             publicOnly = true,
             withArchived = false,

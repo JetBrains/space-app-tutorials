@@ -57,21 +57,21 @@ fun Application.configureRouting() {
         }
 
         get<Routes.GetChannels> { params ->
-            runAuthorized { spaceTokenInfo ->
-                call.respond(HttpStatusCode.OK, GetChannelsService(spaceTokenInfo).getChannels(params.query))
+            runAuthorized { spaceJwt ->
+                call.respond(HttpStatusCode.OK, GetChannelsService(spaceJwt).getChannels(params.query))
             }
         }
 
         post<Routes.SendMessage> { params ->
-            runAuthorized { spaceTokenInfo ->
-                SendMessageService(spaceTokenInfo).sendMessage(params.channelId, params.messageText)
+            runAuthorized { spaceJwt ->
+                SendMessageService(spaceJwt).sendMessage(params.channelId, params.messageText)
                 call.respond(HttpStatusCode.OK)
             }
         }
 
         get<Routes.AppHasPermissions> {
-            runAuthorized { spaceTokenInfo ->
-                call.respond(HttpStatusCode.OK, AppHasPermissionsService(spaceTokenInfo).appHasPermissions())
+            runAuthorized { spaceJwt ->
+                call.respond(HttpStatusCode.OK, AppHasPermissionsService(spaceJwt).appHasPermissions())
             }
         }
     }

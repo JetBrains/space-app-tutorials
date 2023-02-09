@@ -1,21 +1,22 @@
 import kotlinx.serialization.Serializable
-import org.homepage.SpaceTokenInfo
 import org.homepage.appSpaceClient
+import space.jetbrains.api.runtime.helpers.ParsedSpaceJWT
 import space.jetbrains.api.runtime.resources.permissions
 import space.jetbrains.api.runtime.types.ApplicationIdentifier
 import space.jetbrains.api.runtime.types.GlobalPermissionTarget
+import space.jetbrains.api.runtime.types.PermissionIdentifier
 import space.jetbrains.api.runtime.types.PrincipalIn
 
-class AppHasPermissionsService(private val spaceTokenInfo: SpaceTokenInfo) {
+class AppHasPermissionsService(private val spaceJwt: ParsedSpaceJWT) {
     suspend fun appHasPermissions(): AppHasPermissionsResponse {
-        val hasViewChannelPermissions = spaceTokenInfo.appSpaceClient().permissions.checkPermission(
+        val hasViewChannelPermissions = spaceJwt.appSpaceClient().permissions.checkPermission(
             principal = PrincipalIn.Application(ApplicationIdentifier.Me),
-            "Channel.ViewChannel",
+            PermissionIdentifier.ViewChannelInfo,
             target = GlobalPermissionTarget
         )
-        val hasPostMessagesPermissions = spaceTokenInfo.appSpaceClient().permissions.checkPermission(
+        val hasPostMessagesPermissions = spaceJwt.appSpaceClient().permissions.checkPermission(
             principal = PrincipalIn.Application(ApplicationIdentifier.Me),
-            "Channel.PostMessages",
+            PermissionIdentifier.PostMessages,
             target = GlobalPermissionTarget
         )
 

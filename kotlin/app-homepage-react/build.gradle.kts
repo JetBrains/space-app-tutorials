@@ -26,6 +26,7 @@ node {
 repositories {
     mavenCentral()
     maven("https://maven.pkg.jetbrains.space/public/p/space/maven")
+    mavenLocal()
 }
 
 dependencies {
