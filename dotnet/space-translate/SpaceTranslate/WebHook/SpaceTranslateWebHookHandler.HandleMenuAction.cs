@@ -149,26 +149,25 @@ public partial class SpaceTranslateWebHookHandler
         string? existingScope,
         ChannelIdentifier.ChannelIdentifierId? channelIdentifier)
     {
-        // Always request these global scopes
-        var scopes = !string.IsNullOrEmpty(existingScope)
-            ? new HashSet<string>(existingScope.Split(' ', StringSplitOptions.RemoveEmptyEntries))
-            : new HashSet<string>();
+        // Always request the global scopes
+        var permissionScopeElements = new HashSet<PermissionScopeElement>
+        {
+            new(PermissionContextIdentifier.Global, PermissionIdentifier.ViewMessages),
+            new(PermissionContextIdentifier.Global, PermissionIdentifier.ViewChannelInfo),
+            new(PermissionContextIdentifier.Global, PermissionIdentifier.ViewDirectMessages)
+        };
 
-        scopes.Add("global:Channel.ViewMessages");
-        scopes.Add("global:Channel.ViewChannel");
-        scopes.Add("global:Profile.DirectMessages.ReadMessages");
-        
         // For private channels, channel-specific scopes are needed
         if (channelIdentifier != null)
         {
-            scopes.Add($"channel:{channelIdentifier.Id}:Channel.ViewMessages");
-            scopes.Add($"channel:{channelIdentifier.Id}:Channel.ViewChannel");
+            permissionScopeElements.Add(new(PermissionContextIdentifier.Channel(channelIdentifier.Id), PermissionIdentifier.ViewMessages));
+            permissionScopeElements.Add(new(PermissionContextIdentifier.Channel(channelIdentifier.Id), PermissionIdentifier.ViewChannelInfo));
         }
 
         return AppUserActionExecutionResult.AuthCodeFlowRequired(
             new List<AuthCodeFlowPermissionsRequest>
             {
-                new (string.Join(' ', scopes), purpose: "translate chat message")
+                new (new PermissionScope(existingScope ?? "") + PermissionScopeBuilder.FromElements(permissionScopeElements), purpose: "translate chat message")
             });
     }
 

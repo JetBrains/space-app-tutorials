@@ -71,11 +71,11 @@ public partial class SpaceTranslateWebHookHandler
         await applicationClient.Authorizations.AuthorizedRights.RequestRightsAsync(
             application: ApplicationIdentifier.Me,
             contextIdentifier: PermissionContextIdentifier.Global, 
-            rightCodes: new List<string>
+            rightCodes: new List<PermissionIdentifier>
             {
-                "Profile.View",
-                "Channel.ViewMessages",
-                "Channel.ViewChannel"
+                PermissionIdentifier.ViewMemberProfiles,
+                PermissionIdentifier.ViewMessages,
+                PermissionIdentifier.ViewChannelInfo
             });
         
         await applicationClient.SetUiExtensionsAsync(
@@ -120,5 +120,25 @@ public partial class SpaceTranslateWebHookHandler
         await _db.SaveChangesAsync();
             
         return await base.HandleChangeServerUrlAsync(payload);
+    }
+
+    public override async Task<ApplicationExecutionResult> HandleUninstalledAsync(ApplicationUninstalledPayload payload)
+    {
+        // Uninstall application
+        var organization = await _db.Organizations
+            .Include(it => it.Users)
+            .FirstOrDefaultAsync(it => it.ClientId == payload.ClientId);
+        if (organization == null)
+        {
+            _logger.LogWarning("The organization is already uninstalled. ClientId={ClientId}; ServerUrl={ServerUrl}", payload.ClientId, payload.ServerUrl);
+            return new ApplicationExecutionResult("The organization is already uninstalled.");
+        }
+
+        // Delete related entities
+        _db.RemoveRange(organization.Users);
+        _db.RemoveRange(organization);
+        await _db.SaveChangesAsync();
+
+        return new ApplicationExecutionResult("The organization has been uninstalled.");
     }
 }
