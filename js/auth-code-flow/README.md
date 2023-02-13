@@ -27,7 +27,7 @@ First time the flow happens, the user is shown authorization page in Space and p
 runs the redirect happens without user interaction (as long as Space cookies are valid and user is still logged 
 into Space).
 
-# Running the application
+# Running the application locally
 
 To run the application for your Space organization:
 
@@ -43,7 +43,7 @@ To run the application for your Space organization:
 3. Create an application in JetBrains Space (Extensions -> Installed to organization -> New application)
 4. Take Client ID and Client secret from the "Authentication" tab and replace the placeholder values for `CLIENT_ID`
    and `CLIENT_SECRET` in `constants.js`.
-5. Replace the `APPLICATION_URL` placeholder in `constants.js` with your ngrok URL, for example: `https://e123-94-158-242-146.eu.ngrok.io`
+5. Replace the `APPLICATION_REDIRECT_URL` placeholder in `constants.js` with your ngrok URL, for example: `https://e123-94-158-242-146.eu.ngrok.io`
 6. Uncheck the `Client Credentials Flow` checkbox on the `Authentication` tab of the application in Space. Client ID and 
 Client secret are public for your application. Thus, anyone can make requests through Client Credentials flow if you 
 don't turn it off. Do not leave the flow on and do not grant any permissions to the application

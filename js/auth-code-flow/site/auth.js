@@ -1,8 +1,8 @@
-import {APPLICATION_URL, CLIENT_ID, CLIENT_SECRET, SPACE_ORG_URL} from "./constants.js";
+import {APPLICATION_REDIRECT_URL, CLIENT_ID, CLIENT_SECRET, SPACE_ORG_URL} from "./constants.js";
 import {parseJwt} from "./jwt.js";
 
 export async function getAuthorizationUrl() {
-    const redirectUri = encodeURIComponent(APPLICATION_URL);
+    const redirectUri = encodeURIComponent(APPLICATION_REDIRECT_URL);
     const scope = encodeURIComponent('global:Profile.View global:Profile.Memberships.View');
     const authCodeRequestKey = window.crypto.randomUUID();
     const codeVerifier = `${window.crypto.randomUUID()}.${window.crypto.randomUUID()}`;
@@ -29,7 +29,7 @@ export async function getAccessTokenFromSpace(authCode, state) {
             'Authorization': `Basic ${auth}`,
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: `grant_type=authorization_code&code=${authCode}&redirect_uri=${APPLICATION_URL}&code_verifier=${codeVerifier}`
+        body: `grant_type=authorization_code&code=${authCode}&redirect_uri=${APPLICATION_REDIRECT_URL}&code_verifier=${codeVerifier}`
     });
     const json = await response.json();
     return json.access_token;
