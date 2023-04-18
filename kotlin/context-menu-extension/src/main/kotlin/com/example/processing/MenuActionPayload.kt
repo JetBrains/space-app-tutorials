@@ -1,9 +1,7 @@
 package com.example.processing
 
 import com.example.db.findRefreshTokenData
-import space.jetbrains.api.runtime.PermissionDeniedException
-import space.jetbrains.api.runtime.RefreshTokenRevokedException
-import space.jetbrains.api.runtime.SpaceClient
+import space.jetbrains.api.runtime.*
 import space.jetbrains.api.runtime.helpers.ProcessingScope
 import space.jetbrains.api.runtime.resources.checklists
 import space.jetbrains.api.runtime.resources.projects
@@ -12,7 +10,6 @@ import space.jetbrains.api.runtime.types.*
 suspend fun ProcessingScope.createIssueSubItems(payload: MenuActionPayload): AppUserActionExecutionResult {
     val refreshTokenAndScope = findRefreshTokenData(payload.clientId, payload.userId)
         ?: return permissionsRequest
-
     val client = clientWithRefreshToken(refreshTokenAndScope.refreshToken, refreshTokenAndScope.scope)
     return try {
         doCreateSubItems(client, payload)
@@ -25,24 +22,46 @@ suspend fun ProcessingScope.createIssueSubItems(payload: MenuActionPayload): App
 }
 
 private val permissionsRequest = AppUserActionExecutionResult.AuthCodeFlowRequired(
-    /**
-     * Below global permissions are requested (for all projects). You can also request permissions for a
-     * particular project only. To do that, specify the following scope:
-     * project:<project_id>:Project.Issues.Create project:<project_id>:Project.Issues.View project:<project_id>:Project.Issues.Edit
-     *
-     * Here replace the `<project_id>` with the id of the actual project. You can get the project id from
-     * [MenuActionPayload.context]:
-     *
-     * ```
-     * val context = payload.context as IssueMenuActionContext
-     * val projectIdentifier = context.projectIdentifier as ProjectIdentifier.Id
-     * val projectId = projectIdentifier.id
-     * ```
-     */
-    listOf(
+    permissionsToRequest = listOf(
         AuthCodeFlowPermissionsRequest(
-            "global:Project.Issues.Create global:Project.Issues.View global:Project.Issues.Edit global:Project.View",
-            "create task sub-items"
+            scope = PermissionScope.build(
+                /**
+                 * The code below requests global permissions (for all projects). You can also request permissions for a
+                 * particular project only. To do that, use `ProjectPermissionContextIdentifier`:
+                 * ```
+                 * PermissionScopeElement(
+                 *     ProjectPermissionContextIdentifier(ProjectIdentifier.Key("MY-PRJ")),
+                 *     PermissionIdentifier.CreateIssues
+                 *  ),
+                 * ```
+                 *
+                 * Here replace the `MY-PRJ` with the actual project key. You can get the project key from
+                 * [MenuActionPayload.context]:
+                 *
+                 * ```
+                 * val context = payload.context as IssueMenuActionContext
+                 * val projectIdentifier = context.projectIdentifier as ProjectIdentifier.Key
+                 * val projectKey = projectIdentifier.key
+                 * ```
+                 */
+                PermissionScopeElement(
+                    GlobalPermissionContextIdentifier,
+                    PermissionIdentifier.CreateIssues
+                ),
+                PermissionScopeElement(
+                    GlobalPermissionContextIdentifier,
+                    PermissionIdentifier.ViewIssues
+                ),
+                PermissionScopeElement(
+                    GlobalPermissionContextIdentifier,
+                    PermissionIdentifier.UpdateIssues
+                ),
+                PermissionScopeElement(
+                    GlobalPermissionContextIdentifier,
+                    PermissionIdentifier.ViewProjectDetails
+                )
+            ),
+            purpose = "create task sub-items"
         )
     )
 )
@@ -88,6 +107,6 @@ private suspend fun doCreateSubItems(client: SpaceClient, payload: MenuActionPay
 //            context.projectIdentifier,
 //            title = "${issue.title}: $it",
 //            status = status,
-//            parents = listOf(context.issueIdentifier)
+//            parents = listOf(context.issueIdentifier))
 //    }
 }
