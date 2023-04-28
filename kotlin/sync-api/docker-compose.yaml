@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  postgres:
+    image: "postgres:12.2"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: spaceSyncApi
+      POSTGRES_DB: spaceSyncApi
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d spaceSyncApi -U root"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
