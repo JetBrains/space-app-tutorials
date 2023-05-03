@@ -1,6 +1,5 @@
 package com.example
 
-import com.example.db.syncIssues
 import space.jetbrains.api.ExperimentalSpaceSdkApi
 import space.jetbrains.api.runtime.helpers.ProcessingScope
 import space.jetbrains.api.runtime.types.IssueWebhookEvent
