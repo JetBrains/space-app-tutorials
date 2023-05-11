@@ -16,10 +16,6 @@ suspend fun ProcessingScope.setupWebhooks() {
         description = "Track when an issue is created, or a title or a description is updated",
         acceptedHttpResponseCodes = listOf(200),
         payloadFields = {
-            project {
-                id()
-            }
-
             issue()
         }
     )
