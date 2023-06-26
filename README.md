@@ -13,6 +13,7 @@ and `dotnet` directories.
 * [Example — How to receive events from Space](https://github.com/JetBrains/space-app-tutorials/tree/main/kotlin/space-events)
 * [Example — Application Homepage](https://github.com/JetBrains/space-app-tutorials/tree/main/kotlin/app-homepage-react). Client-server app with UI in React JS. For a client-only Application Homepage demo app see `Javascript` section below.
 * [Example — Context menu extension](https://github.com/JetBrains/space-app-tutorials/tree/main/kotlin/context-menu-extension)
+* [Example — How to use Sync API](https://github.com/JetBrains/space-app-tutorials/tree/main/kotlin/sync-api). The app syncs Space issues with a local database.
 
 ## .NET
 
