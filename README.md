@@ -1,5 +1,8 @@
 # JetBrains Space Applications: examples and tutorials
 
+[![official JetBrains project](https://jb.gg/badges/official.svg)][jb:github]
+[![Slack](https://img.shields.io/badge/Slack-%23jetbrains--platform-blue?style=flat-square&logo=Slack)](https://plugins.jetbrains.com/slack)
+
 Please see the [documentation](https://jetbrains.com/help/space/applications.html) for JetBrains Space applications.
 
 `Kotlin` and `.NET` SDKs are currently officially supported. Corresponding examples and tutorials are in `kotlin` 
@@ -30,3 +33,5 @@ Source code of two production applications from Space Marketplace:
 
 * [Slack Link Previews](https://github.com/JetBrains/space-slack-unfurls) — provides link previews between Slack and JetBrains Space in both directions
 * [Slack Channel Tunnel](https://github.com/JetBrains/space-slack-channel-sync) — two-way sync of messages between Slack and Space
+
+[jb:github]: https://github.com/JetBrains/.github/blob/main/profile/README.md
