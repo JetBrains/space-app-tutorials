@@ -33,9 +33,9 @@ const val redirectUri = "$appUrl/$showUsernameRoute"
 val spaceAppInstance = SpaceAppInstance(
     // 'clientId' and 'clientSecret' are generated when you
     // [[[register the application|https://www.jetbrains.com/help/space/register-app-in-space.html#specify-authentication-options]]] in Space
-    // Do not store id and secret in plain text!
-    clientId = System.getenv("JB_SPACE_CLIENT_ID"),
-    clientSecret = System.getenv("JB_SPACE_CLIENT_SECRET"),
+    // Do not store client secret in plain text!
+    clientId = "example-client-id-replace-me", // System.getenv("JB_SPACE_CLIENT_ID"),
+    clientSecret = "example-client-secret-replace-me", // System.getenv("JB_SPACE_CLIENT_SECRET"),
     spaceServerUrl = spaceUrl,
 )
 
